@@ -16,6 +16,7 @@
   button#entityClone {
     background: #02c3b1;
   }
+
   button#entityDelete {
     background: #eb0077;
 
@@ -31,6 +32,7 @@
 
     display: none;
   }
+
   button#entityAttributeAdd {
     background: #56eb00;
     font-weight: normal;
@@ -42,7 +44,8 @@
 </style>
 <script type="text/javascript">
   $(document).ready(function () {
-    setOptionValues(null, $("div#entityTemplateContainer select#entityAttributeType"));
+    setSelectMenuEntityMappingTypeOptions($("div#entityTemplateContainer select#entityAttributeMappingType"));
+    setSelectMenuObjectTypeOptions(null, $("div#entityTemplateContainer select#entityAttributeType"));
 
     var cloneClickCount = 0;
     $('button[id=entityClone]').button().click(function () {
@@ -60,9 +63,6 @@
       $(entityTemplateContainerClone).appendTo("div#springBootContainer");
       /** [end] clone **/
       $($(entityTemplateContainerClone).find("button#entityDelete")).css("display", "block");
-
-      /** reset entityAttributeType list **/
-      setOptionValues($("div#entityTemplateContainerClone input[id=entityName]"), $(entityTemplateContainerClone).find("select#entityAttributeType"));
 
     });
     $('button[id=entityDelete]').button().click(function () {
@@ -86,9 +86,12 @@
 
       $(entityAttributeRowClone).appendTo($(entityAttributeTable));
 
-      //debugger;
       /** reset entityAttributeType list **/
-      setOptionValues($("div#entityTemplateContainerClone input[id=entityName]"), $(entityTemplateContainerClone).find("select#entityAttributeType"));      
+      var filteredNewEntities = $("div#entityTemplateContainerClone input[id=entityName]").filter((k, v) => {
+        debugger;
+        return v.value != ($(this).parents("div#entityTemplateContainerClone").find("input[id=entityName]").val())
+      })
+      setSelectMenuObjectTypeOptions(filteredNewEntities, $(entityTemplateContainerClone).find("select#entityAttributeType"));
     });
 
 
@@ -124,6 +127,10 @@
           <td colspan="2"><input id="entityTableName" type="text" style="width:98%;"
               oninput="let p=this.selectionStart;this.value=this.value.toUpperCase();this.setSelectionRange(p, p);" />
           </td>
+        </tr>
+        <tr>
+          <th colspan="2">Should this entity be thread safe during update?</th>
+          <td colspan="2"><input id="shouldBeThreadSafe" type="checkbox" style="" /></td>
         </tr>
         <tr>
           <td colspan="4">

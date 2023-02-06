@@ -7,11 +7,11 @@ public class Components {
     
     // getters and setters
     public String getEntity() { return entity; }
-    public void setEntity(String value) { this.entity = value; }
+    public void setEntity(String entity) { this.entity = entity; }
 
     public String getService() { return service; }
-    public void setService(String value) { this.service = value; }
+    public void setService(String service) { this.service = service; }
 
     public String getController() { return controller; }
-    public void setController(String value) { this.controller = value; }    
+    public void setController(String controller) { this.controller = controller; }    
 }

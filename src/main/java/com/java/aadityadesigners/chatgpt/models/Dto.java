@@ -7,8 +7,8 @@ public class Dto {
 
     // getters and setters
     public String getName() { return name; }
-    public void setName(String value) { this.name = value; }
+    public void setName(String name) { this.name = name; }
 
     public DtoAttribute[] getAttributes() { return attributes; }
-    public void setAttributes(DtoAttribute[] value) { this.attributes = value; }    
+    public void setAttributes(DtoAttribute[] attributes) { this.attributes = attributes; }    
 }

@@ -88,7 +88,7 @@
                         /** ********************** **/
                         /** [TEMPLATE] SPRING BOOT **/
                         /** ********************** **/
-                        if ("spring-boot" = selectedTemplate) {
+                        if (selectedTemplate == "spring-boot") {
                             $("div#container").append("<div id='springBootContainer' style='display:flex; flex-wrap:wrap;'></div>");
 
                             /** [TEMPLATE: COMPONENT] BASE_PACKAGE **/
@@ -111,7 +111,7 @@
                             }
 
                             /** [TEMPLATE: COMPONENT] ENTITY **/
-                            if ("entity" == technology_spec_spring_boot[1]) {
+                            if (technology_spec_spring_boot[1] == "entity") {
                                 // [WEB_PAGE] Sub Navigation //
                                 var subNavigation = $("div#subNavigationTemplate").clone(true);
                                 styleSubNavigation(subNavigation, technology_spec_spring_boot[1]);
@@ -120,7 +120,7 @@
                                 // [WEB_PAGE] Container //
                                 spring_boot_template_values[technology_spec_spring_boot[1]] = [];
                                 cloneAndEnableComponent($("div#entityTemplateContainer"), $("div#springBootContainer"));
-                                setCleanOptionValues(entityMappingType, $("div#entityTemplateContainerClone select#entityAttributeMappingType"));
+                                //setCleanOptionValues(entityMappingType, $("div#entityTemplateContainerClone select#entityAttributeMappingType"));
                             }
 
 
@@ -159,6 +159,8 @@
                         entity["name"] = name;
                         var table = $(this).find("input#entityTableName").val();
                         entity["table"] = table;
+                        var shouldBeThreadSafe = $(this).find("checkbox#shouldBeThreadSafe").val();
+                        entity["commentsForChatGPT"] = (shouldBeThreadSafe == 1) ? "Please use @Version annotation for Optimistic Locking." : "";
 
                         var attributes = [];
                         $($(this).find("tr#entityAttributeROW")).each(function () {
@@ -177,7 +179,7 @@
                     });
                     console.log("Entity-> " + JSON.stringify(spring_boot_template_values));
                     $("div#entityTemplateContainerClone").css("display", "none");
-                    $("div#subNavigation-"+technology_spec_spring_boot[1]).css("opacity", "0.4");
+                    $("div#subNavigation-" + technology_spec_spring_boot[1]).css("opacity", "0.4");
 
 
                     /** [TEMPLATE: COMPONENT] SERVICE **/
@@ -211,15 +213,13 @@
                         service["function"] = functionz;
                         spring_boot_template_values.service.push(service);
                     });
-                    console.log("Service ->");
-                    console.log(spring_boot_template_values);
                     console.log("Service-> " + JSON.stringify(spring_boot_template_values));
                     $("div#serviceTemplateContainerClone").css("opacity", "0.5");
-                    $("div#subNavigation-"+technology_spec_spring_boot[2]).css("opacity", "0.5");
+                    $("div#subNavigation-" + technology_spec_spring_boot[2]).css("opacity", "0.5");
 
 
 
-                } else {    
+                } else {
                     // --------- //
                     // -- END -- //
                     // --------- //
@@ -234,12 +234,14 @@
                                     serverPayload["application-components"] = spring_boot_template_values;
                                     console.log(JSON.stringify(serverPayload));
 
+                                    /**
                                     $.ajax({
                                         type: "POST",
                                         headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
                                         url: "http://localhost:8080/spring-boot/code",
                                         data: JSON.stringify(serverPayload)
                                     });
+                                    **/
                                     $(this).dialog("close");
                                     //window.location.reload();
                                 }

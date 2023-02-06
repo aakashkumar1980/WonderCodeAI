@@ -24,34 +24,31 @@ function cloneAndEnableComponent(projectTemplateContainer, appendToElement) {
 }
 
 /** [TEMPLATE: COMPONENT] OPTION-MENU **/
-var entityMappingType = [
-    "",
+var entityMappingTypes = [
     "One to One",
     "Many to One",
     "One to Many",
     "Many to Many"
 ]
-var objectTypeList = [
-    "String",
-    "Boolean",
-    "Integer", "BigInteger", "Long", "Float",
-    "List", "Set", "Map"
-];
-function setCleanOptionValues(inputs, selectMenu) {
+function setSelectMenuEntityMappingTypeOptions(selectMenu) {
     $(selectMenu).empty();
 
     var inputList = [];
-    if (inputs) {
-        $(inputs).each(function () {
+    $(entityMappingTypes).each(function () {
+        if (this.value) {
+            inputList.push(this.value);
+        } else {
             if (this) {
                 inputList.push(this);
             }
-        });
-    }
+        }
+    });
 
     const inputSet = new Set(inputList);
     const inputSortedSet = [...inputSet].sort();
-
+    $(selectMenu).append(
+        "<option value=\"\"></option>"
+    );    
     $(inputSortedSet).each(function () {
         if (this.toString()) {
             $(selectMenu).append(
@@ -61,9 +58,14 @@ function setCleanOptionValues(inputs, selectMenu) {
     });
 
 }
-function setOptionValues(inputs, selectMenu) {
-    //$(selectMenu).empty();
 
+var objectTypes = [
+    "String",
+    "Boolean",
+    "Integer", "BigInteger", "Long", "Float",
+    "List", "Set", "Map"
+];
+function setSelectMenuObjectTypeOptions(inputs, selectMenu) {
     var inputList = [];
     if (inputs) {
         $(inputs).each(function () {
@@ -77,10 +79,9 @@ function setOptionValues(inputs, selectMenu) {
         });
     }
 
-    inputList = inputList.concat(objectTypeList); // club both the arrays
+    inputList = inputList.concat(objectTypes); // club both the arrays
     const inputSet = new Set(inputList);
     const inputSortedSet = [...inputSet].sort();
-
     $(inputSortedSet).each(function () {
         input = this.toString();
         if (input) {
@@ -97,7 +98,7 @@ function setOptionValues(inputs, selectMenu) {
                     "<option value=\"" + input + "\">" + input + "</option>"
                 );
 
-                if (objectTypeList.indexOf(input) == -1) {
+                if (objectTypes.indexOf(input) == -1) {
                     $(selectMenu).append(
                         "<option value=\"List&lt;" + input + "&gt;\">List&lt;" + input + "&gt;</option>"
                     );

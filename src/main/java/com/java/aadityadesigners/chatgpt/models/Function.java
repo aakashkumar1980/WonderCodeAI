@@ -13,7 +13,7 @@ public class Function {
 
     // getters and setters
     public String getName() { return name; }
-    public void setName(String value) { this.name = value; }
+    public void setName(String name) { this.name = name; }
 
     public String getProcessingLogic() { return processingLogic; }
     public void setProcessingLogic(String processingLogic) { this.processingLogic = processingLogic; }    

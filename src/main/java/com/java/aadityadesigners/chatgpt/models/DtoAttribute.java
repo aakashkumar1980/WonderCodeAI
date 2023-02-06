@@ -8,11 +8,11 @@ public class DtoAttribute {
 
     // getters and setters
     public String getName() { return name; }
-    public void setName(String value) { this.name = value; }
+    public void setName(String name) { this.name = name; }
 
     public String getType() { return type; }
-    public void setType(String value) { this.type = value; }
+    public void setType(String type) { this.type = type; }
 
     public String getRegex() { return regex; }
-    public void setRegex(String value) { this.regex = value; }    
+    public void setRegex(String regex) { this.regex = regex; }    
 }
