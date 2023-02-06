@@ -7,19 +7,16 @@ public class SpringBootApplicationComponents {
     private String basePackage;
     private Entity[] entity;
     private Controller[] service;
-    private Controller[] controller;
+
     
     // getters and setters
     public String getBasePackage() { return basePackage; }
-    public void setBasePackage(String value) { this.basePackage = value; }
+    public void setBasePackage(String basePackage) { this.basePackage = basePackage; }
 
     public Entity[] getEntity() { return entity; }
-    public void setEntity(Entity[] value) { this.entity = value; }
+    public void setEntity(Entity[] entity) { this.entity = entity; }
 
     public Controller[] getService() { return service; }
-    public void setService(Controller[] value) { this.service = value; }
-
-    public Controller[] getController() { return controller; }
-    public void setController(Controller[] value) { this.controller = value; }
+    public void setService(Controller[] service) { this.service = service; }
 
 }

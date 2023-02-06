@@ -5,7 +5,7 @@
             "components": {
                 "entity": "Using JPA with Lombok and Javax validations; please show Entity and DTO code (without imports) for ",
                 "service": "Using Entity, JPA Query, Spring Boot with Exception Handling and Optimistic Locking/Transactions (if specified in the Entity); please show the Service and Repository code (without imports) for  ",
-                "unitTest": "Using Service and Spring Boot; please show the Unit Test code (without imports)."
+                "unitTest": "Using Service and Spring Boot; please show the Unit Test code (without imports) for  "
             }
         }
     ]

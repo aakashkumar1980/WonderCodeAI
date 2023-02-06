@@ -234,14 +234,14 @@
                                     serverPayload["application-components"] = spring_boot_template_values;
                                     console.log(JSON.stringify(serverPayload));
 
-                                    /**
+                                    
                                     $.ajax({
                                         type: "POST",
                                         headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
                                         url: "http://localhost:8080/spring-boot/code",
                                         data: JSON.stringify(serverPayload)
                                     });
-                                    **/
+                                    
                                     $(this).dialog("close");
                                     //window.location.reload();
                                 }

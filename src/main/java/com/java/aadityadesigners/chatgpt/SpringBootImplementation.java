@@ -96,27 +96,28 @@ public class SpringBootImplementation {
             }
         }
         /** ************* **/
-        /** 3. Controller **/
+        /** 3. UnitTest **/
         /** ************* **/
-        if (tpl.getApplicationComponents().getController() != null) {
-            for (int index = 0; index < tpl.getApplicationComponents().getController().length; index++) {
-                for (int index2 = 0; index2 < tpl.getApplicationComponents().getController()[index]
+        if (tpl.getApplicationComponents().getService() != null) {
+            for (int index = 0; index < tpl.getApplicationComponents().getService().length; index++) {
+                for (int index2 = 0; index2 < tpl.getApplicationComponents().getService()[index]
                         .getFunction().length; index2++) {
-                    String method = "(class=" + tpl.getApplicationComponents().getController()[index].getName() + ") "
-                            + mapper.writeValueAsString(
-                                    tpl.getApplicationComponents().getController()[index].getFunction()[index2]);
-                    String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getController()) + " "
+
+                    String methodName = (tpl.getApplicationComponents().getService()[index].getFunction()[index2])
+                            .getName();
+
+                    String method = "(class=" + tpl.getApplicationComponents().getService()[index].getName()+"Test"+ ") "
+                            + methodName;
+                    String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getUnitTest()) + " "
                             + Utils.skipQuotes(method);
                     String requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
                             Utils.skipQuotes(chatGptCommand));
 
                     try {
-                        String fileName = tpl.getApplicationComponents().getController()[index].getName()
-                                .concat("" + index2)
+                        String fileName = tpl.getApplicationComponents().getService()[index].getName()
+                                .concat("Test" + index2)
                                 .concat(".java");
-                        String methodName = (tpl.getApplicationComponents().getController()[index]
-                                .getFunction()[index2])
-                                .getName();
+
                         File file = new File(stagingAreaWithPackagePath + "/" + fileName);
                         if (file.exists())
                             continue;
