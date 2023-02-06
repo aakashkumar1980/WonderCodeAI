@@ -68,6 +68,7 @@
     $('button[id=entityDelete]').button().click(function () {
       console.log("DELETE: button clicked");
 
+      /** reset entityAttributeType list **/
       var currentEntity = $(this).parents("div#entityTemplateContainerClone").find("input[id=entityName]").val();
       $(`div#entityTemplateContainerClone select#entityAttributeType option[value=${currentEntity}]`).remove();
       $(`div#entityTemplateContainerClone select#entityAttributeType option[value="List<${currentEntity}>"]`).remove();
