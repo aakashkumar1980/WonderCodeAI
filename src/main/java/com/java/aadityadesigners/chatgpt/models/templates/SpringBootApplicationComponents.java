@@ -1,7 +1,6 @@
 package com.java.aadityadesigners.chatgpt.models.templates;
 
 import com.java.aadityadesigners.chatgpt.models.Controller;
-import com.java.aadityadesigners.chatgpt.models.Dto;
 import com.java.aadityadesigners.chatgpt.models.Entity;
 
 public class SpringBootApplicationComponents {
