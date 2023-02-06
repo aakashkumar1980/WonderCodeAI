@@ -159,8 +159,8 @@
                         entity["name"] = name;
                         var table = $(this).find("input#entityTableName").val();
                         entity["table"] = table;
-                        var shouldBeThreadSafe = $(this).find("checkbox#shouldBeThreadSafe").val();
-                        entity["commentsForChatGPT"] = (shouldBeThreadSafe == 1) ? "Please use @Version annotation for Optimistic Locking." : "";
+                        var shouldBeThreadSafe = $(this).find("input#shouldBeThreadSafe").prop("checked")
+                        entity["commentsForChatGPT"] = (shouldBeThreadSafe) ? "Please use @Version annotation for Optimistic Locking." : "";
 
                         var attributes = [];
                         $($(this).find("tr#entityAttributeROW")).each(function () {
