@@ -67,6 +67,12 @@
     });
     $('button[id=entityDelete]').button().click(function () {
       console.log("DELETE: button clicked");
+
+      debugger;
+      var currentEntity = $(this).parents("div#entityTemplateContainerClone").find("input[id=entityName]").val();
+      $(`div#entityTemplateContainerClone select#entityAttributeType option[value=${currentEntity}]`).remove();
+      $(`div#entityTemplateContainerClone select#entityAttributeType option[value="List<${currentEntity}>"]`).remove();
+      $(`div#entityTemplateContainerClone select#entityAttributeType option[value="Map<${currentEntity}>"]`).remove();
       ($(this).parents("div#entityTemplateContainerClone")).remove();
     });
 
@@ -88,7 +94,6 @@
 
       /** reset entityAttributeType list **/
       var filteredNewEntities = $("div#entityTemplateContainerClone input[id=entityName]").filter((k, v) => {
-        debugger;
         return v.value != ($(this).parents("div#entityTemplateContainerClone").find("input[id=entityName]").val())
       })
       setSelectMenuObjectTypeOptions(filteredNewEntities, $(entityTemplateContainerClone).find("select#entityAttributeType"));
