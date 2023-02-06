@@ -1,0 +1,263 @@
+<html>
+
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <!--link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"-->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/hot-sneaks/jquery-ui.css">
+
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/template-navigation.css">
+    <script src="scripts/scripts.js"></script>
+    <script src="templates/spring_boot/template.js"></script>
+    <style type="text/css">
+        .ui-widget {
+            font-family: Gill Sans, Arial, sans-serif;
+            font-size: 1em;
+        }
+
+        .ribbon1 {
+            background: #009688;
+        }
+
+        .ribbon1:after {
+            border-left: 15px solid #ffc107;
+        }
+
+        .ribbon1:before {
+            border-bottom: 9px solid #ffc107;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="title">
+        <h1>Welcome to WonderCodeAI, the tool for generating automated project codes using ChatGPT AI services</h1>
+    </div>
+    <div id="center">
+        <div id="navigation">
+            <div class="ribbons-wrapper">
+                <div class="ribbon">
+                    <div id="projectTemplateNavigation" class="ribbon1">Select Project Template</div>
+
+                    <div id="subNavigation">
+                        <!-- [NOTE] Components to be placed programetically -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div id="body">
+            <div id="container">
+                <!-- [NOTE] Components to be placed programetically -->
+            </div>
+            <div id="bottomBar" style="text-align:center; padding-top:20px; display:none">
+                <button id="back" style="margin-right:10px; width:200px; display:none;">Back</button>
+                <button id="next" style="margin-left:10px; width:200px;">Next</button>
+            </div>
+        </div>
+    </div>
+    <!-- [START] Templates Container -->
+    <div includeTemplate1="templates/template.html"></div>
+    <div includeTemplate2="templates/spring_boot/entity_template.html"></div>
+    <div includeTemplate3="templates/spring_boot/service_template.html"></div>
+    <!-- [END] Templates Container -->
+    <div id="footer">
+        <h5>Copyright @Aaditya Designers</h5>
+    </div>
+
+
+    <!-- ************** -->
+    <!-- BUSINESS LOGIC -->
+    <!-- ************** -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var templateContainer1 = $("div[includeTemplate1]");
+            var templateContainer2 = $("div[includeTemplate2]");
+            var templateContainer3 = $("div[includeTemplate3]");
+            $(templateContainer1).load($(templateContainer1).attr("includeTemplate1"), function () {
+                console.log("templates/template.html loaded.");
+
+                // [WEB_PAGE] LOAD: Project Template //
+                cloneAndEnableComponent($("div#projectTemplateContainer"), $("div#container"));
+                $("div#projectTemplateContainerClone select#projectTemplate").selectmenu({
+                    change: function (event, data) {
+                        $("div#bottomBar").css("display", "block");
+                        var selectedTemplate = data.item.value;
+
+                        /** ********************** **/
+                        /** [TEMPLATE] SPRING BOOT **/
+                        /** ********************** **/
+                        if ("spring-boot" = selectedTemplate) {
+                            $("div#container").append("<div id='springBootContainer' style='display:flex; flex-wrap:wrap;'></div>");
+
+                            /** [TEMPLATE: COMPONENT] BASE_PACKAGE **/
+                            var packageName = $("input#package").val();
+                            let pattern = /^[a-z]+([.])[a-z]+([.]?[a-z]+)*$/i;
+                            if (!packageName || !pattern.test(packageName)) {
+                                $("<div title='Warning'>Please enter the package name (with correct format)!</div>").dialog(
+                                    {
+                                        modal: true,
+                                        buttons: {
+                                            Ok: function () {
+                                                $(this).dialog("close");
+                                                window.location.reload();
+                                            }
+                                        }
+                                    }
+                                );
+                            } else {
+                                spring_boot_template_values[technology_spec_spring_boot[0]] = packageName;
+                            }
+
+                            /** [TEMPLATE: COMPONENT] ENTITY **/
+                            if ("entity" == technology_spec_spring_boot[1]) {
+                                // [WEB_PAGE] Sub Navigation //
+                                var subNavigation = $("div#subNavigationTemplate").clone(true);
+                                styleSubNavigation(subNavigation, technology_spec_spring_boot[1]);
+                                $(subNavigation).appendTo("div#subNavigation");
+
+                                // [WEB_PAGE] Container //
+                                spring_boot_template_values[technology_spec_spring_boot[1]] = [];
+                                cloneAndEnableComponent($("div#entityTemplateContainer"), $("div#springBootContainer"));
+                                setCleanOptionValues(entityMappingType, $("div#entityTemplateContainerClone select#entityAttributeMappingType"));
+                            }
+
+
+                            /** ************** **/
+                            /** [TEMPLATE] XYZ **/
+                            /** ************** **/
+                        } else {
+                        }
+
+
+                        // [WEB_PAGE] UNLOAD: Project Template //
+                        $("div#projectTemplateContainerClone").hide();
+                        $("div#projectTemplateNavigation").css("opacity", "0.4");
+                    }
+                });
+
+            });
+            $(templateContainer2).load($(templateContainer2).attr("includeTemplate2"), function () {
+                console.log("templates/spring_boot/entity_template.html loaded.");
+            });
+            $(templateContainer3).load($(templateContainer3).attr("includeTemplate3"), function () {
+                console.log("templates/spring_boot/service_template.html loaded.");
+            });
+
+            $("button#back").button().click(function () {
+            });
+            $("button#next").button().click(function () {
+                /** ********************** **/
+                /** [TEMPLATE] SPRING BOOT **/
+                /** ********************** **/
+                if (spring_boot_template_values.entity.length == 0) {
+                    /** [TEMPLATE: COMPONENT] ENTITY **/
+                    $("div#springBootContainer div#entityTemplateContainerClone").each(function () {
+                        var entity = {};
+                        var name = $(this).find("input#entityName").val();
+                        entity["name"] = name;
+                        var table = $(this).find("input#entityTableName").val();
+                        entity["table"] = table;
+
+                        var attributes = [];
+                        $($(this).find("tr#entityAttributeROW")).each(function () {
+                            var attributeRow = {};
+                            var name = $(this).find("input#entityAttributeName").val();
+                            attributeRow["name"] = name;
+                            var type = $(this).find("select#entityAttributeType").val();
+                            attributeRow["type"] = type;
+                            var mappingType = $(this).find("select#entityAttributeMappingType").val();
+                            if (mappingType) attributeRow["mappingType"] = mappingType;
+
+                            attributes.push(attributeRow);
+                        })
+                        entity["attributes"] = attributes;
+                        spring_boot_template_values.entity.push(entity);
+                    });
+                    console.log("Entity-> " + JSON.stringify(spring_boot_template_values));
+                    $("div#entityTemplateContainerClone").css("display", "none");
+                    $("div#subNavigation-"+technology_spec_spring_boot[1]).css("opacity", "0.4");
+
+
+                    /** [TEMPLATE: COMPONENT] SERVICE **/
+                    // [WEB_PAGE] Sub Navigation //
+                    var subNavigation = $("div#subNavigationTemplate").clone(true);
+                    styleSubNavigation(subNavigation, technology_spec_spring_boot[2]);
+                    $(subNavigation).appendTo("div#subNavigation");
+                    // [WEB_PAGE] Container //
+                    spring_boot_template_values[technology_spec_spring_boot[2]] = [];
+                    cloneAndEnableComponent($("div#serviceTemplateContainer"), $("div#springBootContainer"));
+
+
+
+                } else if (spring_boot_template_values.service.length == 0) {
+                    /** [TEMPLATE: COMPONENT] SERVICE **/
+                    $("div#springBootContainer div#serviceTemplateContainerClone").each(function () {
+                        var service = {};
+                        var name = (spring_boot_template_values[technology_spec_spring_boot[0]]).split('.').pop();
+                        service["name"] = name + "Service";
+
+                        var functionz = [];
+                        $($(this).find("tr#functionRow")).each(function () {
+                            var functionRow = {};
+                            var name = $(this).find("input#functionName").val();
+                            functionRow["name"] = name;
+                            var processingLogic = $(this).find("textarea#functionProcessingLogic").val();
+                            functionRow["processing-logic"] = processingLogic;
+
+                            functionz.push(functionRow);
+                        })
+                        service["function"] = functionz;
+                        spring_boot_template_values.service.push(service);
+                    });
+                    console.log("Service ->");
+                    console.log(spring_boot_template_values);
+                    console.log("Service-> " + JSON.stringify(spring_boot_template_values));
+                    $("div#serviceTemplateContainerClone").css("opacity", "0.5");
+                    $("div#subNavigation-"+technology_spec_spring_boot[2]).css("opacity", "0.5");
+
+
+
+                } else {    
+                    // --------- //
+                    // -- END -- //
+                    // --------- //
+                    $("button#next").css("opacity", "0.5");
+                    $("<div title='Confirmation'>Submitting the request to the server. Please check the 'staging' folder for the generated files.</div>").dialog(
+                        {
+                            modal: true,
+                            buttons: {
+                                Ok: function () {
+                                    var serverPayload = {};
+                                    serverPayload["technology-spec"] = "spring-boot";
+                                    serverPayload["application-components"] = spring_boot_template_values;
+                                    console.log(JSON.stringify(serverPayload));
+
+                                    $.ajax({
+                                        type: "POST",
+                                        headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
+                                        url: "http://localhost:8080/spring-boot/code",
+                                        data: JSON.stringify(serverPayload)
+                                    });
+                                    $(this).dialog("close");
+                                    //window.location.reload();
+                                }
+                            }
+                        }
+                    );
+                }
+
+
+                /** ************** **/
+                /** [TEMPLATE] XYZ **/
+                /** ************** **/
+
+            });
+
+        });
+
+    </script>
+</body>
+
+</html>

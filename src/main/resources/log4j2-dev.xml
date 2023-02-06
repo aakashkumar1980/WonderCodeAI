@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+	<!-- REFERENCE: https://howtodoinjava.com/log4j2/multiple-appenders/ -->
+	<Properties>
+		<Property name="LOG_PATTERN">%d %-5level [%thread] %logger : %msg%n</Property>
+	</Properties>
+
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT" follow="true">
+			<PatternLayout pattern="${LOG_PATTERN}" />
+		</Console>
+	</Appenders>
+
+
+	<Loggers>
+		<!-- ################### -->
+		<!-- ### SPRING CORE ### -->
+		<!-- ################### -->
+		<!-- server port -->
+		<Logger name="org.eclipse.jetty.server.AbstractConnector" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.apache.tomcat.util.threads.LimitLatch" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>						
+		<!-- startup diagnostics -->
+		<Logger name="org.springframework.boot.diagnostics.FailureAnalyzers" level="TRACE" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<!-- config .properties/.yml file loading -->
+		<Logger name="org.springframework.boot.context.config.ConfigFileApplicationListener" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<!-- application class loading -->
+		<Logger name="org.springframework.context.annotation.ClassPathBeanDefinitionScanner" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<!-- spring-boot app -->	
+		<Logger name="org.springframework.boot.SpringApplication" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>		
+
+
+		<!-- ################## -->
+		<!-- ### SPRING MVC ### -->
+		<!-- ################## -->	
+		<!-- request mappings -->	
+		<Logger name="org.springframework.web.servlet.DispatcherServlet" level="TRACE" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>		
+		<Logger name="org.springframework.web.client.RestTemplate" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.springframework.web.servlet.mvc.method.annotation.HttpEntityMethodProcessor" level="TRACE" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>				
+		<Logger name="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping" level="TRACE" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<!-- ############################ -->
+		<!-- ### DATABASE, JPA & POOL ### -->
+		<!-- ############################ -->		
+		<!-- datasource config -->
+		<Logger name="com.zaxxer.hikari.HikariConfig" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>		
+		<Logger name="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<!-- jpa repository -->		
+		<Logger name="org.springframework.data.repository.config.RepositoryConfigurationDelegate" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.hibernate.jpa.internal.util.LogHelper" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>																	
+		<Logger name="org.springframework.data.rest.webmvc.RepositoryRestHandlerMapping" level="INFO" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>			
+		<!-- connection-pool logging -->
+		<AsyncLogger name="com.zaxxer.hikari.pool.HikariPool" level="DEBUG" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>			
+		<AsyncLogger name="com.zaxxer.hikari.pool.PoolBase" level="DEBUG" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>		
+		<AsyncLogger name="com.zaxxer.hikari.pool.ProxyLeakTask" level="WARN" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>		
+		<!-- sql logging -->
+		<AsyncLogger name="org.hibernate.resource.jdbc.internal.AbstractLogicalConnectionImplementor" level="TRACE" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>	
+		<AsyncLogger name="org.hibernate.resource.jdbc.internal.ResourceRegistryStandardImpl" level="TRACE" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		<AsyncLogger name="org.springframework.orm.jpa.EntityManagerFactoryUtils" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>							
+		<AsyncLogger name="org.hibernate.SQL" level="DEBUG" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		<AsyncLogger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		
+
+		<!-- ############# -->
+		<!-- ### KAFKA ### -->
+		<!-- ############# -->		
+		<Logger name="org.apache.kafka.clients.producer.ProducerConfig" level="INFO" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<AsyncLogger name="org.apache.kafka.clients.producer.KafkaProducer" level="TRACE" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		<AsyncLogger name="org.apache.kafka.common.security.ssl.SslEngineBuilder" level="DEBUG" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		<AsyncLogger name="org.apache.kafka.clients.NetworkClient" level="WARN" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		<AsyncLogger name="org.apache.kafka.clients.producer.KafkaProducer" level="DEBUG" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		<AsyncLogger name="org.apache.kafka.clients.producer.internals.Sender" level="TRACE" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>										
+
+		<Logger name="org.apache.kafka.clients.consumer.ConsumerConfig" level="INFO" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>
+		<Logger name="org.apache.kafka.clients.consumer.internals.AbstractCoordinator" level="INFO" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</Logger>		
+		<AsyncLogger name="org.springframework.kafka.listener.KafkaMessageListenerContainer" level="DEBUG" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		
+		<!--
+		<AsyncLogger name="org.springframework.kafka.listener" level="TRACE" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		<AsyncLogger name="org.springframework.kafka.core.KafkaTemplate" level="TRACE" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		-->
+						
+
+		<!-- ################### -->
+		<!-- ### APPLICATION ### -->
+		<!-- ################### -->							
+		<AsyncLogger name="com.java.aadityadesigners" level="TRACE" includeLocation="true" additivity="false">
+			<AppenderRef ref="Console" />
+		</AsyncLogger>
+		
+		<Root level="WARN">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+
+</Configuration>

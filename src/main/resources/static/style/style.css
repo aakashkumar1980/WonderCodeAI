@@ -1,0 +1,49 @@
+body {}
+
+div#title {
+  height: 10%
+}
+
+
+div#center {
+  height: 80%
+}
+
+div#navigation {
+  float: left;
+  background-image: url(../images/background.webp);  
+  box-shadow: 10px 10px 5px lightblue;
+
+  width: 30%;
+  height: 100%
+}
+
+div#body {
+  float: right;
+
+  width: 70%;
+  height: 100%
+}
+div#container {
+  padding-left: 30px;
+}
+
+
+
+div#footer {
+  height: 5%;
+  text-align: center;
+}
+
+button#back:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+fieldset {
+	border:1px solid #999;
+	border-radius:8px;
+	box-shadow:0 0 10px #999;  
+}

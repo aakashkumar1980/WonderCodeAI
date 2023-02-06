@@ -1,0 +1,49 @@
+<style type="text/css">
+    div#subNavigationTemplate {
+        left: 20px;
+        /**top:100px;**/
+
+        display: none;
+    }
+
+    div#projectTemplateContainer {
+        display: none;
+    }
+
+    .ui-textfield {
+        font: inherit;
+        color: inherit;
+        text-align: inherit;
+        outline: none;
+    }
+</style>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('input[id=package]').button().addClass('ui-textfield');
+
+        $("input#package").on("blur", function () {
+            let value = $(this).val();
+            let pattern = /^[a-z]+([.])[a-z]+([.]?[a-z]+)*$/i;
+            let isValid = pattern.test(value);
+            if (isValid) {
+                $(this).css("border-bottom-color", "lightgreen");
+            } else {
+                $(this).css("border-bottom-color", "red");
+            }
+        });
+    });
+</script>
+
+<div id="subNavigationTemplate" class="ribbon1"></div>
+
+<div id="projectTemplateContainer">
+    <div style="padding:20px; border:solid 2px;">
+        <label for="projectTemplate">Select a Project Template</label>
+        <select name="projectTemplate" id="projectTemplate">
+            <option disabled selected>Please pick one</option>
+            <option value="spring-boot">Spring Boot</option>
+        </select><br /><br />
+
+        *Package Name: <input id="package" type="text" />
+    </div>
+</div>

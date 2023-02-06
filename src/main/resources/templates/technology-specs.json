@@ -1,0 +1,12 @@
+{
+    "technology-spec":[
+        {
+            "name": "spring-boot",
+            "components": {
+                "entity": "Using Spring Boot JPA with Lombok and Javax validations; please show Entity and DTO code (without imports) for ",
+                "service": "Using Entity, JPA Query, Spring Boot with Exception Handling and Transactional Support; please show the Service and Repository code (without imports) for  ",
+                "controller": "Using Service, ModelMapper (for Entity to DTO conversion) and Spring Boot REST API; please show the Controller code (without imports) for "
+            }
+        }
+    ]
+}
