@@ -8,7 +8,7 @@ $(document).ready(function () {
         /** ********************** **/
         /** [TEMPLATE] SPRING BOOT **/
         /** ********************** **/
-        if (currentTemplate = "springBoot") {
+        if (currentTemplate == "springBoot") {
             if ((currentScreen == technology_spec_spring_boot[2])
                 && (previousScreen == technology_spec_spring_boot[1])) {
                 $("div#subNavigation-" + currentScreen).css("opacity", "0.4");

@@ -7,8 +7,8 @@ $(document).ready(function () {
         /** ********************** **/
         /** [TEMPLATE] SPRING BOOT **/
         /** ********************** **/
-        if (currentTemplate = "springBoot") {
-            if (currentScreen = technology_spec_spring_boot[1]) {
+        if (currentTemplate == "springBoot") {
+            if (currentScreen == technology_spec_spring_boot[1]) {
                 /** [TEMPLATE: COMPONENT] ENTITY **/
                 $("div#" + currentTemplate + "Container div#" + currentScreen + "TemplateContainerClone").each(function () {
                     var entity = {};
@@ -63,7 +63,7 @@ $(document).ready(function () {
 
 
 
-            } else if (currentScreen = technology_spec_spring_boot[2]) {
+            } else if (currentScreen == technology_spec_spring_boot[2]) {
                 /** [TEMPLATE: COMPONENT] SERVICE **/
                 $("div#" + currentTemplate + "Container div#" + currentScreen + "TemplateContainerClone").each(function () {
                     var service = {};

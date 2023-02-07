@@ -7,7 +7,7 @@ $(document).ready(function () {
         /** ********************** **/
         /** [TEMPLATE] SPRING BOOT **/
         /** ********************** **/
-        if (currentTemplate = "springBoot") {
+        if (currentTemplate == "springBoot") {
             // [WEB_PAGE] Container //
             $("div#" + currentScreen + "TemplateContainerClone").remove();
             cloneAndEnableComponent($("div#" + currentScreen + "TemplateContainer"), $("div#" + currentTemplate + "Container"));
