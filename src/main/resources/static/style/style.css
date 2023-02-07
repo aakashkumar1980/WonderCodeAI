@@ -45,6 +45,7 @@ button#reset {
   display:none;
 }
 button#back {
+  float: left;
   margin-right:10px; 
   width:200px; 
   

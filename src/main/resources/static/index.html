@@ -36,6 +36,7 @@
 <body>
     <div id="title">
         <h1>Welcome to WonderCodeAI, the tool for generating automated project codes using ChatGPT AI services</h1>
+        <input id="currentTemplate" type="hidden" value="home" />
         <input id="currentScreen" type="hidden" value="home" />
     </div>
     <div id="center">
@@ -96,6 +97,7 @@
                         /** [TEMPLATE] SPRING BOOT **/
                         /** ********************** **/
                         if (selectedTemplate == "spring-boot") {
+                            $("input#currentTemplate").val("springBoot");
                             $("div#container").append("<div id='springBootContainer' style='display:flex; flex-wrap:wrap;'></div>");
 
                             /** [TEMPLATE: COMPONENT] BASE_PACKAGE **/
@@ -158,113 +160,126 @@
             });
 
             $("button#reset").button().click(function () {
+                //var containers = $($("input#currentScreen").val()+"TemplateContainerClone");
+                // [WEB_PAGE] Container //
+                var templateContainer = $("div#"+$("input#currentTemplate").val()+"Container");
+                templateContainer.empty();
+
+                spring_boot_template_values[$("input#currentScreen").val()] = [];
+                cloneAndEnableComponent($("div#"+$("input#currentScreen").val()+"TemplateContainer"), $("div#"+$("input#currentTemplate").val()+"Container"));
+
             });            
             $("button#back").button().click(function () {
             });
             $("button#next").button().click(function () {
+                var currentTemplate = $("input#currentTemplate").val();
+                var previousScreen = $("input#currentScreen").val();
+
                 /** ********************** **/
                 /** [TEMPLATE] SPRING BOOT **/
                 /** ********************** **/
-                if (spring_boot_template_values.entity.length == 0) {
-                    /** [TEMPLATE: COMPONENT] ENTITY **/
-                    $("div#springBootContainer div#entityTemplateContainerClone").each(function () {
-                        var entity = {};
-                        var name = $(this).find("input#entityName").val();
-                        entity["name"] = name;
-                        var table = $(this).find("input#entityTableName").val();
-                        entity["table"] = table;
-                        var shouldBeThreadSafe = $(this).find("input#shouldBeThreadSafe").prop("checked")
-                        entity["commentsForChatGPT"] = (shouldBeThreadSafe) ? "Please use @Version annotation for Optimistic Locking." : "";
+                if(currentTemplate = "springBoot") {
+                    if (previousScreen = technology_spec_spring_boot[1]) {
+                        /** [TEMPLATE: COMPONENT] ENTITY **/
+                        $("div#"+currentTemplate+"Container div#"+previousScreen+"TemplateContainerClone").each(function () {
+                            var entity = {};
+                            var name = $(this).find("input#entityName").val();
+                            entity["name"] = name;
+                            var table = $(this).find("input#entityTableName").val();
+                            entity["table"] = table;
+                            var shouldBeThreadSafe = $(this).find("input#shouldBeThreadSafe").prop("checked")
+                            entity["commentsForChatGPT"] = (shouldBeThreadSafe) ? "Please use @Version annotation for Optimistic Locking." : "";
 
-                        var attributes = [];
-                        $($(this).find("tr#entityAttributeROW")).each(function () {
-                            var attributeRow = {};
-                            var name = $(this).find("input#entityAttributeName").val();
-                            attributeRow["name"] = name;
-                            var type = $(this).find("select#entityAttributeType").val();
-                            attributeRow["type"] = type;
-                            var mappingType = $(this).find("select#entityAttributeMappingType").val();
-                            if (mappingType) attributeRow["mappingType"] = mappingType;
+                            var attributes = [];
+                            $($(this).find("tr#entityAttributeROW")).each(function () {
+                                var attributeRow = {};
+                                var name = $(this).find("input#entityAttributeName").val();
+                                attributeRow["name"] = name;
+                                var type = $(this).find("select#entityAttributeType").val();
+                                attributeRow["type"] = type;
+                                var mappingType = $(this).find("select#entityAttributeMappingType").val();
+                                if (mappingType) attributeRow["mappingType"] = mappingType;
 
-                            attributes.push(attributeRow);
-                        })
-                        entity["attributes"] = attributes;
-                        spring_boot_template_values.entity.push(entity);
-                    });
-                    console.log("Entity-> " + JSON.stringify(spring_boot_template_values));
-                    $("div#entityTemplateContainerClone").css("display", "none");
-                    $("div#subNavigation-" + technology_spec_spring_boot[1]).css("opacity", "0.4");
-
-
-                    /** [TEMPLATE: COMPONENT] SERVICE **/
-                    // [WEB_PAGE] Sub Navigation //
-                    var subNavigation = $("div#subNavigationTemplate").clone(true);
-                    styleSubNavigation(subNavigation, technology_spec_spring_boot[2]);
-                    $(subNavigation).appendTo("div#subNavigation");
-                    // [WEB_PAGE] Container //
-                    spring_boot_template_values[technology_spec_spring_boot[2]] = [];
-                    cloneAndEnableComponent($("div#serviceTemplateContainer"), $("div#springBootContainer"));
+                                attributes.push(attributeRow);
+                            })
+                            entity["attributes"] = attributes;
+                            spring_boot_template_values.entity.push(entity);
+                        });
+                        console.log("Entity-> " + JSON.stringify(spring_boot_template_values));
+                        $("div#"+previousScreen+"TemplateContainerClone").css("display", "none");
+                        $("div#subNavigation-" + technology_spec_spring_boot[1]).css("opacity", "0.4");
 
 
-
-                } else if (spring_boot_template_values.service.length == 0) {
-                    /** [TEMPLATE: COMPONENT] SERVICE **/
-                    $("div#springBootContainer div#serviceTemplateContainerClone").each(function () {
-                        var service = {};
-                        var name = (spring_boot_template_values[technology_spec_spring_boot[0]]).split('.').pop();
-                        service["name"] = name + "Service";
-
-                        var functionz = [];
-                        $($(this).find("tr#functionRow")).each(function () {
-                            var functionRow = {};
-                            var name = $(this).find("input#functionName").val();
-                            functionRow["name"] = name;
-                            var processingLogic = $(this).find("textarea#functionProcessingLogic").val();
-                            functionRow["processing-logic"] = processingLogic;
-
-                            functionz.push(functionRow);
-                        })
-                        service["function"] = functionz;
-                        spring_boot_template_values.service.push(service);
-                    });
-                    console.log("Service-> " + JSON.stringify(spring_boot_template_values));
-                    $("div#serviceTemplateContainerClone").css("opacity", "0.5");
-                    $("div#subNavigation-" + technology_spec_spring_boot[2]).css("opacity", "0.5");
+                        /** [TEMPLATE: COMPONENT] SERVICE **/
+                        // [WEB_PAGE] Sub Navigation //
+                        var subNavigation = $("div#subNavigationTemplate").clone(true);
+                        styleSubNavigation(subNavigation, technology_spec_spring_boot[2]);
+                        $(subNavigation).appendTo("div#subNavigation");
+                        // [WEB_PAGE] Container //
+                        spring_boot_template_values[technology_spec_spring_boot[2]] = [];
+                        cloneAndEnableComponent($("div#"+technology_spec_spring_boot[2]+"TemplateContainer"), $("div#"+currentTemplate+"Container"));
+                        $("button#back").css("display", "block");
 
 
+                    } else if (previousScreen = technology_spec_spring_boot[2]) {
+                        /** [TEMPLATE: COMPONENT] SERVICE **/
+                        $("div#"+currentTemplate+"Container div#"+previousScreen+"TemplateContainerClone").each(function () {
+                            var service = {};
+                            var name = (spring_boot_template_values[technology_spec_spring_boot[0]]).split('.').pop();
+                            service["name"] = name + "Service";
 
-                } else {
-                    // --------- //
-                    // -- END -- //
-                    // --------- //
-                    $("button#next").css("opacity", "0.5");
-                    $("<div title='Confirmation'>Submitting the request to the server. Please check the 'staging' folder for the generated files.</div>").dialog(
-                        {
-                            modal: true,
-                            buttons: {
-                                Ok: function () {
-                                    var serverPayload = {};
-                                    serverPayload["technology-spec"] = "spring-boot";
-                                    serverPayload["application-components"] = spring_boot_template_values;
-                                    console.log(JSON.stringify(serverPayload));
+                            var functionz = [];
+                            $($(this).find("tr#functionRow")).each(function () {
+                                var functionRow = {};
+                                var name = $(this).find("input#functionName").val();
+                                functionRow["name"] = name;
+                                var processingLogic = $(this).find("textarea#functionProcessingLogic").val();
+                                functionRow["processing-logic"] = processingLogic;
 
-                                    
-                                    $.ajax({
-                                        type: "POST",
-                                        headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
-                                        url: "http://localhost:8080/spring-boot/code",
-                                        data: JSON.stringify(serverPayload)
-                                    });
-                                    
-                                    $(this).dialog("close");
-                                    //window.location.reload();
+                                functionz.push(functionRow);
+                            })
+                            service["function"] = functionz;
+                            spring_boot_template_values.service.push(service);
+                        });
+                        console.log("Service-> " + JSON.stringify(spring_boot_template_values));
+                        $("div#"+previousScreen+"TemplateContainerClone").css("opacity", "0.5");
+                        $("div#subNavigation-" + technology_spec_spring_boot[2]).css("opacity", "0.5");
+
+
+
+                    } else {
+                        // --------- //
+                        // -- END -- //
+                        // --------- //
+                        $("button#next").css("opacity", "0.5");
+                        $("<div title='Confirmation'>Submitting the request to the server. Please check the 'staging' folder for the generated files.</div>").dialog(
+                            {
+                                modal: true,
+                                buttons: {
+                                    Ok: function () {
+                                        var serverPayload = {};
+                                        serverPayload["technology-spec"] = "spring-boot";
+                                        serverPayload["application-components"] = spring_boot_template_values;
+                                        console.log(JSON.stringify(serverPayload));
+
+                                        
+                                        $.ajax({
+                                            type: "POST",
+                                            headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
+                                            url: "http://localhost:8080/spring-boot/code",
+                                            data: JSON.stringify(serverPayload)
+                                        });
+                                        
+                                        $(this).dialog("close");
+                                        //window.location.reload();
+                                    }
                                 }
                             }
-                        }
-                    );
+                        );
+                    }
+
+
                 }
-
-
                 /** ************** **/
                 /** [TEMPLATE] XYZ **/
                 /** ************** **/
