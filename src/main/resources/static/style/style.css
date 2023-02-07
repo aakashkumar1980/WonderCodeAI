@@ -14,19 +14,21 @@ div#navigation {
   background-image: url(../images/background.webp);  
   box-shadow: 10px 10px 5px lightblue;
 
-  width: 30%;
+  width: 25%;
   height: 100%
 }
 
 div#body {
   float: right;
 
-  width: 70%;
+  width: 75%;
   height: 100%
 }
+
 div#container {
-  padding-left: 30px;
+  padding-left: 10px;
 }
+
 
 
 
