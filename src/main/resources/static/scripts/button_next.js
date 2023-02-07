@@ -84,29 +84,28 @@ $(document).ready(function () {
                     spring_boot_template_values.service.push(service);
                 });
                 console.log("Service-> " + JSON.stringify(spring_boot_template_values));
-                $("div#" + currentScreen + "TemplateContainerClone").css("opacity", "0.4");
-                $("div#subNavigation-" + technology_spec_spring_boot[2]).css("opacity", "0.4");
+    
 
-                $("input#previousScreen").val(technology_spec_spring_boot[2]);
-                $("input#currentScreen").val(null); // as there are no next screen      
-
-
-
-            } else {
                 // --------- //
                 // -- END -- //
                 // --------- //
-                $("button#next").css("opacity", "0.4");
-                $("<div title='Confirmation'>Submitting the request to the server. Please check the 'staging' folder for the generated files.</div>").dialog(
+                $("<div title='Confirmation'>Please confirm if you want to submit the request to the server?</div>").dialog(
                     {
                         modal: true,
                         buttons: {
                             Ok: function () {
+                                $("div#"+currentScreen+"TemplateContainerClone").css("opacity", "0.4");
+                                $("div#subNavigation-"+currentScreen).css("opacity", "0.4");
+                                $("button#next").css("opacity", "0.4");
+                                $("button#back").css("opacity", "0.4");
+                                $("button#reset").css("opacity", "0.4");
+                                $("input#previousScreen").val(technology_spec_spring_boot[2]);
+                                $("input#currentScreen").val(null); // as there are no next screen                                 
+                                
                                 var serverPayload = {};
                                 serverPayload["technology-spec"] = "spring-boot";
                                 serverPayload["application-components"] = spring_boot_template_values;
                                 console.log(JSON.stringify(serverPayload));
-
 
                                 $.ajax({
                                     type: "POST",
@@ -116,8 +115,10 @@ $(document).ready(function () {
                                 });
 
                                 $(this).dialog("close");
-                                //window.location.reload();
-                            }
+                            },
+                            Cancel: function () {
+                                $(this).dialog("close");
+                            }                            
                         }
                     }
                 );
