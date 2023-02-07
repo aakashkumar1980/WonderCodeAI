@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/template-navigation.css">
-    <script src="scripts/scripts.js"></script>
+    <script src="scripts/utility_scripts.js"></script>
     <script src="templates/spring_boot/template.js"></script>
     <style type="text/css">
         .ui-widget {
@@ -19,6 +19,7 @@
         .ribbons-wrapper {
             width: 110%;
         }
+
         .ribbon1 {
             background: #009688;
         }
@@ -122,16 +123,16 @@
 
                             /** [TEMPLATE: COMPONENT] ENTITY **/
                             if (technology_spec_spring_boot[1] == "entity") {
-
                                 // [WEB_PAGE] Sub Navigation //
                                 subNavigation = $("div#subNavigationTemplate").clone(true);
                                 styleSubNavigation(subNavigation, technology_spec_spring_boot[1]);
                                 $(subNavigation).appendTo("div#subNavigation");
-                                
+
                                 // [WEB_PAGE] Container //
                                 spring_boot_template_values[technology_spec_spring_boot[1]] = [];
-                                cloneAndEnableComponent($("div#"+technology_spec_spring_boot[1]+"TemplateContainer"), $("div#springBootContainer"));
+                                cloneAndEnableComponent($("div#" + technology_spec_spring_boot[1] + "TemplateContainer"), $("div#springBootContainer"));
 
+                                $("input#previousScreen").val(null);
                                 $("input#currentScreen").val(technology_spec_spring_boot[1]);
                                 $("button#reset").css("display", "block");
                                 $("button#next").css("display", "block");
@@ -161,33 +162,43 @@
             });
 
             $("button#reset").button().click(function () {
-                //var containers = $($("input#currentScreen").val()+"TemplateContainerClone");
-                // [WEB_PAGE] Container //
-                var templateContainer = $("div#"+$("input#currentTemplate").val()+"Container");
-                templateContainer.empty();
+                var currentTemplate = $("input#currentTemplate").val();
+                var currentScreen = $("input#currentScreen").val();
+                var previousScreen = $("input#previousScreen").val();
 
-                spring_boot_template_values[$("input#currentScreen").val()] = [];
-                cloneAndEnableComponent($("div#"+$("input#currentScreen").val()+"TemplateContainer"), $("div#"+$("input#currentTemplate").val()+"Container"));
+                /** ********************** **/
+                /** [TEMPLATE] SPRING BOOT **/
+                /** ********************** **/
+                if (currentTemplate = "springBoot") {
+                    // [WEB_PAGE] Container //
+                    $("div#"+currentScreen+"TemplateContainerClone").remove();
+                    cloneAndEnableComponent($("div#"+currentScreen+"TemplateContainer"), $("div#"+currentTemplate+"Container"));
+                }                
 
-            });            
+            });
 
             $("button#back").button().click(function () {
                 var currentTemplate = $("input#currentTemplate").val();
                 var currentScreen = $("input#currentScreen").val();
                 var previousScreen = $("input#previousScreen").val();
-                
+
                 /** ********************** **/
                 /** [TEMPLATE] SPRING BOOT **/
                 /** ********************** **/
-                if(currentTemplate = "springBoot") {
-                    $("div#subNavigation-"+currentScreen).css("opacity", "0.4"); 
-                    $("div#"+currentScreen+"TemplateContainerClone").css("display", "none");
+                if (currentTemplate = "springBoot") {
+                    if ((currentScreen == technology_spec_spring_boot[2]) 
+                        && (previousScreen == technology_spec_spring_boot[1])) {
+                            $("div#subNavigation-" + currentScreen).css("opacity", "0.4");
+                        $("div#" + currentScreen + "TemplateContainerClone").css("display", "none");
+                        $("div#subNavigation-" + previousScreen).css("opacity", "1");
+                        $("div#" + previousScreen + "TemplateContainerClone").css("display", "block");
+                        $("button#back").css("display", "none")
 
-                    $("div#subNavigation-"+previousScreen).css("opacity", "1"); 
-                    $("div#"+previousScreen+"TemplateContainerClone").css("display", "block");
+                        $("input#previousScreen").val(null);
+                        $("input#currentScreen").val(technology_spec_spring_boot[1]);
+                    }
+                }
 
-                }                
-                
             });
             $("button#next").button().click(function () {
                 var currentTemplate = $("input#currentTemplate").val();
@@ -196,10 +207,10 @@
                 /** ********************** **/
                 /** [TEMPLATE] SPRING BOOT **/
                 /** ********************** **/
-                if(currentTemplate = "springBoot") {
+                if (currentTemplate = "springBoot") {
                     if (currentScreen = technology_spec_spring_boot[1]) {
                         /** [TEMPLATE: COMPONENT] ENTITY **/
-                        $("div#"+currentTemplate+"Container div#"+currentScreen+"TemplateContainerClone").each(function () {
+                        $("div#" + currentTemplate + "Container div#" + currentScreen + "TemplateContainerClone").each(function () {
                             var entity = {};
                             var name = $(this).find("input#entityName").val();
                             entity["name"] = name;
@@ -224,14 +235,14 @@
                             spring_boot_template_values.entity.push(entity);
                         });
                         console.log("Entity-> " + JSON.stringify(spring_boot_template_values));
-                        $("div#"+currentScreen+"TemplateContainerClone").css("display", "none");
+                        $("div#" + currentScreen + "TemplateContainerClone").css("display", "none");
                         $("div#subNavigation-" + technology_spec_spring_boot[1]).css("opacity", "0.4");
 
 
                         /** [TEMPLATE: COMPONENT] SERVICE **/
                         // [WEB_PAGE] Sub Navigation //
-                        var subNavigation = $("div#subNavigation-"+technology_spec_spring_boot[2]);
-                        if(subNavigation.length==0) {
+                        var subNavigation = $("div#subNavigation-" + technology_spec_spring_boot[2]);
+                        if (subNavigation.length == 0) {
                             subNavigation = $("div#subNavigationTemplate").clone(true);
                             styleSubNavigation(subNavigation, technology_spec_spring_boot[2]);
                             $(subNavigation).appendTo("div#subNavigation");
@@ -239,22 +250,22 @@
                             $(subNavigation).css("opacity", "1");
                         }
                         // [WEB_PAGE] Container //
-                        var templateContainerClones = $("div#"+technology_spec_spring_boot[2]+"TemplateContainerClone");
-                        if(templateContainerClones.length==0) {
+                        var templateContainerClones = $("div#" + technology_spec_spring_boot[2] + "TemplateContainerClone");
+                        if (templateContainerClones.length == 0) {
                             spring_boot_template_values[technology_spec_spring_boot[2]] = [];
-                            cloneAndEnableComponent($("div#"+technology_spec_spring_boot[2]+"TemplateContainer"), $("div#"+currentTemplate+"Container"));                           
+                            cloneAndEnableComponent($("div#" + technology_spec_spring_boot[2] + "TemplateContainer"), $("div#" + currentTemplate + "Container"));
                         } else {
                             $(templateContainerClones).css("display", "block");
                         }
                         $("button#back").css("display", "block");
-                        $("input#currentScreen").val(technology_spec_spring_boot[2]);
                         $("input#previousScreen").val(technology_spec_spring_boot[1]);
+                        $("input#currentScreen").val(technology_spec_spring_boot[2]);                      
 
-                    
+
 
                     } else if (currentScreen = technology_spec_spring_boot[2]) {
                         /** [TEMPLATE: COMPONENT] SERVICE **/
-                        $("div#"+currentTemplate+"Container div#"+currentScreen+"TemplateContainerClone").each(function () {
+                        $("div#" + currentTemplate + "Container div#" + currentScreen + "TemplateContainerClone").each(function () {
                             var service = {};
                             var name = (spring_boot_template_values[technology_spec_spring_boot[0]]).split('.').pop();
                             service["name"] = name + "Service";
@@ -273,11 +284,11 @@
                             spring_boot_template_values.service.push(service);
                         });
                         console.log("Service-> " + JSON.stringify(spring_boot_template_values));
-                        $("div#"+currentScreen+"TemplateContainerClone").css("opacity", "0.4");
+                        $("div#" + currentScreen + "TemplateContainerClone").css("opacity", "0.4");
                         $("div#subNavigation-" + technology_spec_spring_boot[2]).css("opacity", "0.4");
 
-                        $("input#currentScreen").val(null); // as there are no next screen
                         $("input#previousScreen").val(technology_spec_spring_boot[2]);
+                        $("input#currentScreen").val(null); // as there are no next screen      
 
 
 
@@ -296,14 +307,14 @@
                                         serverPayload["application-components"] = spring_boot_template_values;
                                         console.log(JSON.stringify(serverPayload));
 
-                                        
+
                                         $.ajax({
                                             type: "POST",
                                             headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
                                             url: "http://localhost:8080/spring-boot/code",
                                             data: JSON.stringify(serverPayload)
                                         });
-                                        
+
                                         $(this).dialog("close");
                                         //window.location.reload();
                                     }

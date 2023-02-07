@@ -70,9 +70,11 @@
 
       /** reset entityAttributeType list **/
       var currentEntity = $(this).parents("div#entityTemplateContainerClone").find("input[id=entityName]").val();
-      $(`div#entityTemplateContainerClone select#entityAttributeType option[value=${currentEntity}]`).remove();
-      $(`div#entityTemplateContainerClone select#entityAttributeType option[value="List<${currentEntity}>"]`).remove();
-      $(`div#entityTemplateContainerClone select#entityAttributeType option[value="Map<${currentEntity}>"]`).remove();
+      if (currentEntity) {
+        $(`div#entityTemplateContainerClone select#entityAttributeType option[value=${currentEntity}]`).remove();
+        $(`div#entityTemplateContainerClone select#entityAttributeType option[value="List<${currentEntity}>"]`).remove();
+        $(`div#entityTemplateContainerClone select#entityAttributeType option[value="Map<${currentEntity}>"]`).remove();
+      }
       ($(this).parents("div#entityTemplateContainerClone")).remove();
     });
 
@@ -135,7 +137,7 @@
         </tr>
         <tr>
           <th colspan="2">Should this entity be thread safe during update?</th>
-          <td colspan="2"><input id="shouldBeThreadSafe" type="checkbox"/></td>
+          <td colspan="2"><input id="shouldBeThreadSafe" type="checkbox" /></td>
         </tr>
         <tr>
           <td colspan="4">
