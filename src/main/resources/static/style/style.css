@@ -31,18 +31,33 @@ div#container {
 
 
 
-
 div#footer {
   height: 5%;
   text-align: center;
 }
 
-button#back:disabled,
-button[disabled]{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+button#reset {
+  float:left; 
+  margin-right:10px; 
+  width:200px; 
+  background:#ff9800; 
+  
+  display:none;
 }
+button#back {
+  margin-right:10px; 
+  width:200px; 
+  
+  display:none;
+}
+button#next {
+  margin-left:10px; 
+  width:200px;
+  
+  display:none;
+}
+
+
 
 fieldset {
 	border:1px solid #999;
