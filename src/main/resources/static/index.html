@@ -119,16 +119,19 @@
 
                             /** [TEMPLATE: COMPONENT] ENTITY **/
                             if (technology_spec_spring_boot[1] == "entity") {
-                                $("input#currentScreen").val(technology_spec_spring_boot[1]);
 
                                 // [WEB_PAGE] Sub Navigation //
-                                var subNavigation = $("div#subNavigationTemplate").clone(true);
+                                subNavigation = $("div#subNavigationTemplate").clone(true);
                                 styleSubNavigation(subNavigation, technology_spec_spring_boot[1]);
                                 $(subNavigation).appendTo("div#subNavigation");
-
+                                
                                 // [WEB_PAGE] Container //
                                 spring_boot_template_values[technology_spec_spring_boot[1]] = [];
                                 cloneAndEnableComponent($("div#"+technology_spec_spring_boot[1]+"TemplateContainer"), $("div#springBootContainer"));
+
+                                $("input#currentScreen").val(technology_spec_spring_boot[1]);
+                                $("button#reset").css("display", "block");
+                                $("button#next").css("display", "block");
 
                             }
 

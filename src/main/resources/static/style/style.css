@@ -51,6 +51,7 @@ button#back {
   display:none;
 }
 button#next {
+  float: right;
   margin-left:10px; 
   width:200px;
   
