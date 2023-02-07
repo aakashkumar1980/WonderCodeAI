@@ -36,6 +36,7 @@
 <body>
     <div id="title">
         <h1>Welcome to WonderCodeAI, the tool for generating automated project codes using ChatGPT AI services</h1>
+        <input id="currentScreen" type="hidden" value="home" />
     </div>
     <div id="center">
         <div id="navigation">
@@ -54,9 +55,12 @@
             <div id="container">
                 <!-- [NOTE] Components to be placed programetically -->
             </div>
-            <div id="bottomBar" style="text-align:center; padding-top:20px; display:none">
-                <button id="back" style="margin-right:10px; width:200px; display:none;">Back</button>
-                <button id="next" style="margin-left:10px; width:200px;">Next</button>
+            <div id="bottomBar" style="text-align:center; padding:20px;">
+                <button id="reset">Reset</button>
+                <div style="float:right">
+                    <button id="back">Back</button>
+                    <button id="next">Next</button>
+                </div>
             </div>
         </div>
     </div>
@@ -115,6 +119,8 @@
 
                             /** [TEMPLATE: COMPONENT] ENTITY **/
                             if (technology_spec_spring_boot[1] == "entity") {
+                                $("input#currentScreen").val(technology_spec_spring_boot[1]);
+
                                 // [WEB_PAGE] Sub Navigation //
                                 var subNavigation = $("div#subNavigationTemplate").clone(true);
                                 styleSubNavigation(subNavigation, technology_spec_spring_boot[1]);
@@ -122,7 +128,7 @@
 
                                 // [WEB_PAGE] Container //
                                 spring_boot_template_values[technology_spec_spring_boot[1]] = [];
-                                cloneAndEnableComponent($("div#entityTemplateContainer"), $("div#springBootContainer"));
+                                cloneAndEnableComponent($("div#"+technology_spec_spring_boot[1]+"TemplateContainer"), $("div#springBootContainer"));
 
                             }
 
@@ -148,6 +154,8 @@
                 console.log("templates/spring_boot/service_template.html loaded.");
             });
 
+            $("button#reset").button().click(function () {
+            });            
             $("button#back").button().click(function () {
             });
             $("button#next").button().click(function () {
