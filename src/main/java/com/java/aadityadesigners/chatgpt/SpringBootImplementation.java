@@ -49,7 +49,7 @@ public class SpringBootImplementation {
                     if (file.exists())
                         continue;
 
-                    LOGGER.debug("\n\n requestJson-> " + requestJson);
+                    LOGGER.debug("\n\n\n requestJson-> " + requestJson);
                     LOGGER.info("Calling ChatGPT API for " + fileName + "\n");
                     Utils.restAPICall(requestJson, classPackage, file);
                 } catch (Exception e) {
@@ -84,7 +84,7 @@ public class SpringBootImplementation {
                         if (file.exists())
                             continue;
 
-                        LOGGER.debug("\n requestJson-> " + requestJson);
+                        LOGGER.debug("\n\n requestJson-> " + requestJson);
                         LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
                         Utils.restAPICall(requestJson, classPackage, file);
                     } catch (Exception e) {
@@ -123,7 +123,7 @@ public class SpringBootImplementation {
                         if (file.exists())
                             continue;
 
-                        LOGGER.debug("\n requestJson-> " + requestJson);
+                        LOGGER.debug("\n\n requestJson-> " + requestJson);
                         LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
                         Utils.restAPICall(requestJson, classPackage, file);
                     } catch (Exception e) {

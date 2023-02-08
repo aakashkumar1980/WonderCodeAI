@@ -49,7 +49,7 @@ public class AngularImplementation {
                     if (file.exists())
                         continue;
 
-                    LOGGER.debug("\n\n requestJson-> " + requestJson);
+                    LOGGER.debug("\n\n\n requestJson-> " + requestJson);
                     LOGGER.info("Calling ChatGPT API for " + fileName + "\n");
                     Utils.restAPICall(requestJson, classPackage, file);
                 } catch (Exception e) {
@@ -66,7 +66,7 @@ public class AngularImplementation {
             for (int index = 0; index < tpl.getApplicationComponents().getService().length; index++) {
                 for (int index2 = 0; index2 < tpl.getApplicationComponents().getService()[index]
                         .getFunction().length; index2++) {
-                    String method = "(class=" + tpl.getApplicationComponents().getService()[index].getName() + ") "
+                    String method = "(file=" + tpl.getApplicationComponents().getService()[index].getName() + ") "
                             + mapper.writeValueAsString(
                                     tpl.getApplicationComponents().getService()[index].getFunction()[index2]);
                     String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getService()) + " "
@@ -84,7 +84,7 @@ public class AngularImplementation {
                         if (file.exists())
                             continue;
 
-                        LOGGER.debug("\n requestJson-> " + requestJson);
+                        LOGGER.debug("\n\n requestJson-> " + requestJson);
                         LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
                         Utils.restAPICall(requestJson, classPackage, file);
                     } catch (Exception e) {
@@ -106,7 +106,7 @@ public class AngularImplementation {
                     String methodName = (tpl.getApplicationComponents().getService()[index].getFunction()[index2])
                             .getName();
 
-                    String method = "(class=" + tpl.getApplicationComponents().getService()[index].getName() + ") "
+                    String method = "(file=" + tpl.getApplicationComponents().getService()[index].getName() + ") "
                             + methodName;
                     String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getComponent()) + " "
                             + Utils.skipQuotes(method);
@@ -122,7 +122,7 @@ public class AngularImplementation {
                         if (file.exists())
                             continue;
 
-                        LOGGER.debug("\n requestJson-> " + requestJson);
+                        LOGGER.debug("\n\n requestJson-> " + requestJson);
                         LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
                         Utils.restAPICall(requestJson, classPackage, file);
                     } catch (Exception e) {
@@ -144,7 +144,7 @@ public class AngularImplementation {
                     String methodName = (tpl.getApplicationComponents().getService()[index].getFunction()[index2])
                             .getName();
 
-                    String method = "(class=" + tpl.getApplicationComponents().getService()[index].getName() + "Test"
+                    String method = "(file=" + tpl.getApplicationComponents().getService()[index].getName() + "Test"
                             + ") "
                             + methodName;
                     String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getUnitTest()) + " "
@@ -161,7 +161,7 @@ public class AngularImplementation {
                         if (file.exists())
                             continue;
 
-                        LOGGER.debug("\n requestJson-> " + requestJson);
+                        LOGGER.debug("\n\n requestJson-> " + requestJson);
                         LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
                         Utils.restAPICall(requestJson, classPackage, file);
                     } catch (Exception e) {
