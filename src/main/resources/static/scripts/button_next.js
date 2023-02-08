@@ -8,7 +8,6 @@ $(document).ready(function () {
             /** ********************** **/
             /** [TEMPLATE] SPRING BOOT **/
             /** ********************** **/
-
             if (currentScreen == technology_spec_spring_boot[1]) {
                 /** [TEMPLATE: COMPONENT] ENTITY **/
                 $("div#" + currentTemplate + "Container div#" + currentScreen + "TemplateContainerClone").each(function () {

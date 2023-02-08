@@ -33,60 +33,28 @@ $(document).ready(function () {
                     angular_template_values[technology_spec_angular[0]] = packageName;
                 }
 
+                $("input#currentTemplate").val(selectedTemplate);
+                $("div#container").append("<div id='" + selectedTemplate + "Container' style='display:flex; flex-wrap:wrap;'></div>");
 
-                if (selectedTemplate == "spring-boot") {
-                    /** ********************** **/
-                    /** [TEMPLATE] SPRING BOOT **/
-                    /** ********************** **/
+                // [WEB_PAGE] Sub Navigation //
+                subNavigation = $("div#subNavigationTemplate").clone(true);
+                if (selectedTemplate == "springBoot") styleSubNavigation(subNavigation, technology_spec_spring_boot[1]);
+                if (selectedTemplate == "angular") styleSubNavigation(subNavigation, technology_spec_angular[1]);
+                $(subNavigation).appendTo("div#subNavigation");
 
-                    $("input#currentTemplate").val("springBoot");
-                    $("div#container").append("<div id='springBootContainer' style='display:flex; flex-wrap:wrap;'></div>");
+                // [WEB_PAGE] Container //
+                if (selectedTemplate == "springBoot") spring_boot_template_values[technology_spec_spring_boot[1]] = [];
+                if (selectedTemplate == "angular") angular_template_values[technology_spec_angular[1]] = [];
+                if (selectedTemplate == "springBoot") cloneAndEnableComponent($("div#" + technology_spec_spring_boot[1] + "TemplateContainer"), $("div#" + selectedTemplate + "Container"));
+                if (selectedTemplate == "angular") cloneAndEnableComponent($("div#" + technology_spec_angular[1] + "TemplateContainer"), $("div#" + selectedTemplate + "Container"));
+                // [WEB_PAGE] Container:Screens //
+                $("input#previousScreen").val(null);
+                if (selectedTemplate == "springBoot") $("input#currentScreen").val(technology_spec_spring_boot[1]);
+                if (selectedTemplate == "angular") $("input#currentScreen").val(technology_spec_angular[1]);
 
-                    /** [TEMPLATE: COMPONENT] ENTITY **/
-                    if (technology_spec_spring_boot[1] == "entity") {
-                        // [WEB_PAGE] Sub Navigation //
-                        subNavigation = $("div#subNavigationTemplate").clone(true);
-                        styleSubNavigation(subNavigation, technology_spec_spring_boot[1]);
-                        $(subNavigation).appendTo("div#subNavigation");
-
-                        // [WEB_PAGE] Container //
-                        spring_boot_template_values[technology_spec_spring_boot[1]] = [];
-                        cloneAndEnableComponent($("div#" + technology_spec_spring_boot[1] + "TemplateContainer"), $("div#springBootContainer"));
-
-                        $("input#previousScreen").val(null);
-                        $("input#currentScreen").val(technology_spec_spring_boot[1]);
-                        $("button#reset").css("display", "block");
-                        $("button#next").css("display", "block");
-
-                    }
-
-
-
-                } else {
-                    /** ****************** **/
-                    /** [TEMPLATE] Angular **/
-                    /** ****************** **/
-                    $("input#currentTemplate").val("angular");
-                    $("div#container").append("<div id='angularContainer' style='display:flex; flex-wrap:wrap;'></div>");
-
-                    /** [TEMPLATE: COMPONENT] MODEL **/
-                    if (technology_spec_angular[1] == "model") {
-                        // [WEB_PAGE] Sub Navigation //
-                        subNavigation = $("div#subNavigationTemplate").clone(true);
-                        styleSubNavigation(subNavigation, technology_spec_angular[1]);
-                        $(subNavigation).appendTo("div#subNavigation");
-
-                        // [WEB_PAGE] Container //
-                        angular_template_values[technology_spec_angular[1]] = [];
-                        cloneAndEnableComponent($("div#" + technology_spec_angular[1] + "TemplateContainer"), $("div#angularContainer"));
-
-                        $("input#previousScreen").val(null);
-                        $("input#currentScreen").val(technology_spec_angular[1]);
-                        $("button#reset").css("display", "block");
-                        $("button#next").css("display", "block");
-
-                    }
-                }
+                // [WEB_PAGE] BottomBar //
+                $("button#reset").css("display", "block");
+                $("button#next").css("display", "block");
 
 
                 // [WEB_PAGE] UNLOAD: Project Template //

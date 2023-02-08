@@ -50,6 +50,7 @@
     var cloneClickCount = 0;
     $('button[id=entityClone]').button().click(function () {
       console.log("CLONE: button clicked");
+      var currentTemplate = $("input#currentTemplate").val();
 
       /** [start] clone **/
       var entityTemplateContainerClone = $($(this).parents("div#entityTemplateContainerClone")).clone(true, true);
@@ -60,7 +61,7 @@
       }
       cloneClickCount = cloneClickCount + 1;
 
-      $(entityTemplateContainerClone).appendTo("div#springBootContainer");
+      $(entityTemplateContainerClone).appendTo("div#"+currentTemplate+"Container");
       /** [end] clone **/
       $($(entityTemplateContainerClone).find("button#entityDelete")).css("display", "block");
 
