@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.aadityadesigners.chatgpt.models.Components;
 import com.java.aadityadesigners.chatgpt.models.specs.TechnologySpecs;
-import com.java.aadityadesigners.chatgpt.models.templates.springboot.SpringBootTemplate;
+import com.java.aadityadesigners.chatgpt.models.templates.angular.AngularTemplate;
 
 @Service
-public class SpringBootImplementation {
-    Logger LOGGER = LogManager.getLogger(SpringBootImplementation.class);
+public class AngularImplementation {
+    Logger LOGGER = LogManager.getLogger(AngularImplementation.class);
 
     public void implementApplicationCode(
-            SpringBootTemplate tpl, TechnologySpecs technologySpecs,
+            AngularTemplate tpl, TechnologySpecs technologySpecs,
             String STAGING_AREA, String stagingSeperator, ObjectMapper mapper) throws Exception {
 
         File stagingAreaWithPackagePath = (StringUtils.isNotBlank(stagingSeperator))
@@ -33,18 +33,18 @@ public class SpringBootImplementation {
 
         Components techSpecComponents = Utils.getTechnologySpecComponents(technologySpecs, tpl.TAG);
         /** ********* **/
-        /** 1. Entity **/
+        /** 1. Model **/
         /** ********* **/
-        if (tpl.getApplicationComponents().getEntity() != null) {
-            for (int index = 0; index < tpl.getApplicationComponents().getEntity().length; index++) {
-                String entity = mapper.writeValueAsString(tpl.getApplicationComponents().getEntity()[index]);
-                String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getEntity()) + " "
-                        + Utils.skipQuotes(entity);
+        if (tpl.getApplicationComponents().getModel() != null) {
+            for (int index = 0; index < tpl.getApplicationComponents().getModel().length; index++) {
+                String model = mapper.writeValueAsString(tpl.getApplicationComponents().getModel()[index]);
+                String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getModel()) + " "
+                        + Utils.skipQuotes(model);
                 String requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
                         Utils.skipQuotes(chatGptCommand));
 
                 try {
-                    String fileName = tpl.getApplicationComponents().getEntity()[index].getName().concat(".java");
+                    String fileName = tpl.getApplicationComponents().getModel()[index].getName().concat(".ts");
                     File file = new File(stagingAreaWithPackagePath + "/" + fileName);
                     if (file.exists())
                         continue;
@@ -77,7 +77,7 @@ public class SpringBootImplementation {
                     try {
                         String fileName = tpl.getApplicationComponents().getService()[index].getName()
                                 .concat("" + index2)
-                                .concat(".java");
+                                .concat(".ts");
                         String methodName = (tpl.getApplicationComponents().getService()[index].getFunction()[index2])
                                 .getName();
                         File file = new File(stagingAreaWithPackagePath + "/" + fileName);
@@ -95,8 +95,46 @@ public class SpringBootImplementation {
 
             }
         }
+        /** ************ **/
+        /** 3. Component **/
+        /** ************ **/
+        if (tpl.getApplicationComponents().getService() != null) {
+            for (int index = 0; index < tpl.getApplicationComponents().getService().length; index++) {
+                for (int index2 = 0; index2 < tpl.getApplicationComponents().getService()[index]
+                        .getFunction().length; index2++) {
+
+                    String methodName = (tpl.getApplicationComponents().getService()[index].getFunction()[index2])
+                            .getName();
+
+                    String method = "(class=" + tpl.getApplicationComponents().getService()[index].getName() + ") "
+                            + methodName;
+                    String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getComponent()) + " "
+                            + Utils.skipQuotes(method);
+                    String requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
+                            Utils.skipQuotes(chatGptCommand));
+
+                    try {
+                        String fileName = tpl.getApplicationComponents().getService()[index].getName()
+                                .concat("Test" + index2)
+                                .concat(".ts");
+
+                        File file = new File(stagingAreaWithPackagePath + "/" + fileName);
+                        if (file.exists())
+                            continue;
+
+                        LOGGER.debug("\n requestJson-> " + requestJson);
+                        LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
+                        Utils.restAPICall(requestJson, classPackage, file);
+                    } catch (Exception e) {
+                        LOGGER.error(e.getMessage());
+                        throw new Exception("Error! Retry later");
+                    }
+                }
+
+            }
+        }
         /** ************* **/
-        /** 3. UnitTest **/
+        /** 4. UnitTest **/
         /** ************* **/
         if (tpl.getApplicationComponents().getService() != null) {
             for (int index = 0; index < tpl.getApplicationComponents().getService().length; index++) {
@@ -117,7 +155,7 @@ public class SpringBootImplementation {
                     try {
                         String fileName = tpl.getApplicationComponents().getService()[index].getName()
                                 .concat("Test" + index2)
-                                .concat(".java");
+                                .concat(".ts");
 
                         File file = new File(stagingAreaWithPackagePath + "/" + fileName);
                         if (file.exists())

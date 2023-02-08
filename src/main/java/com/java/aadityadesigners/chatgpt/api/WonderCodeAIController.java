@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.java.aadityadesigners.chatgpt.AngularImplementation;
 import com.java.aadityadesigners.chatgpt.SpringBootImplementation;
 import com.java.aadityadesigners.chatgpt.models.specs.TechnologySpecs;
-import com.java.aadityadesigners.chatgpt.models.templates.SpringBootTemplate;
+import com.java.aadityadesigners.chatgpt.models.templates.angular.AngularTemplate;
+import com.java.aadityadesigners.chatgpt.models.templates.springboot.SpringBootTemplate;
 
 @RestController
 public class WonderCodeAIController {
@@ -35,21 +37,30 @@ public class WonderCodeAIController {
     private final static String STAGING_AREA = PROJECT_PATH + "src/main/resources/staging/";
 
     ObjectMapper mapper = new ObjectMapper(new JsonFactory());
-    
+
     @Autowired
     SpringBootImplementation springBootImplementation;
 
     @CrossOrigin(origins = "*")
-    @PostMapping("/spring-boot/code")
-    public void processSpringBootCode(@RequestBody SpringBootTemplate tpl) throws Exception {
+    @PostMapping("/code-generate/spring-boot")
+    public void generateSpringBootCode(@RequestBody SpringBootTemplate tpl) throws Exception {
         TechnologySpecs technologySpecs = mapper.readValue(FileUtils.openInputStream(new File(TECHNOLOGY_SPECS)),
                 TechnologySpecs.class);
 
-        if (tpl instanceof SpringBootTemplate) {
-            springBootImplementation.implementApplicationCode((SpringBootTemplate) tpl, technologySpecs, STAGING_AREA,
-                    null, mapper);
+        springBootImplementation.implementApplicationCode((SpringBootTemplate) tpl, technologySpecs, STAGING_AREA,
+                null, mapper);
+    }
 
-        }
+    @Autowired
+    AngularImplementation angularImplementation;
 
+    @CrossOrigin(origins = "*")
+    @PostMapping("/code-generate/angular")
+    public void generateAngularCode(@RequestBody AngularTemplate tpl) throws Exception {
+        TechnologySpecs technologySpecs = mapper.readValue(FileUtils.openInputStream(new File(TECHNOLOGY_SPECS)),
+                TechnologySpecs.class);
+
+        angularImplementation.implementApplicationCode((AngularTemplate) tpl, technologySpecs, STAGING_AREA,
+                null, mapper);
     }
 }

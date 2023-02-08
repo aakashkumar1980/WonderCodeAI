@@ -1,4 +1,4 @@
-package com.java.aadityadesigners.chatgpt.models.templates;
+package com.java.aadityadesigners.chatgpt.models.templates.springboot;
 
 import com.java.aadityadesigners.chatgpt.models.Controller;
 import com.java.aadityadesigners.chatgpt.models.Entity;

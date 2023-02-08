@@ -18,7 +18,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.java.aadityadesigners.chatgpt.models.Components;
 import com.java.aadityadesigners.chatgpt.models.specs.Specs;
 import com.java.aadityadesigners.chatgpt.models.specs.TechnologySpecs;
-import com.java.aadityadesigners.chatgpt.models.templates.SpringBootTemplate;
 import com.java.aadityadesigners.chatgpt.models.templates.Templates;
 
 public class Utils {
@@ -45,9 +44,7 @@ public class Utils {
     }
 
     @Deprecated
-    /**
-     * Use API instead.
-     */
+    /* Use API instead 
     public static Templates loadTemplate(File template) throws IOException {
         ObjectMapper mapper = new ObjectMapper(new JsonFactory());
         
@@ -65,6 +62,7 @@ public class Utils {
             return null;
         }
     }
+    */
 
     public static Boolean isTechnologySpecsDefined(TechnologySpecs technologySpecs, Templates tpl) {
         for (int index = 0; index < technologySpecs.getSpecs().length; index++) {

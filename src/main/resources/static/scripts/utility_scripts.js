@@ -48,7 +48,7 @@ function setSelectMenuEntityMappingTypeOptions(selectMenu) {
     const inputSortedSet = [...inputSet].sort();
     $(selectMenu).append(
         "<option value=\"\"></option>"
-    );    
+    );
     $(inputSortedSet).each(function () {
         if (this.toString()) {
             $(selectMenu).append(

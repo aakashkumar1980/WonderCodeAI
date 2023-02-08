@@ -20,6 +20,23 @@ $(document).ready(function () {
                 $("input#previousScreen").val(null);
                 $("input#currentScreen").val(technology_spec_spring_boot[1]);
             }
+
+
+            /** ****************** **/
+            /** [TEMPLATE] ANGULAR **/
+            /** ****************** **/
+        } else if (currentTemplate == "angular") {
+            if ((currentScreen == technology_spec_angular[2])
+                && (previousScreen == technology_spec_angular[1])) {
+                $("div#subNavigation-" + currentScreen).css("opacity", "0.4");
+                $("div#" + currentScreen + "TemplateContainerClone").css("display", "none");
+                $("div#subNavigation-" + previousScreen).css("opacity", "1");
+                $("div#" + previousScreen + "TemplateContainerClone").css("display", "block");
+                $("button#back").css("display", "none")
+
+                $("input#previousScreen").val(null);
+                $("input#currentScreen").val(technology_spec_angular[1]);
+            }
         }
 
     });

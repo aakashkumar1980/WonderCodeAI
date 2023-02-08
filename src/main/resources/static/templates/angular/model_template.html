@@ -1,0 +1,171 @@
+<style type="text/css">
+  div#modelTemplateContainer {
+    display: none;
+    width: 50%;
+  }
+
+  table#modelTemplate {
+    border-style: solid;
+    border-width: 1px;
+
+    border: 1px solid #999;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #999;
+  }
+
+  button#modelClone {
+    background: #02c3b1;
+  }
+
+  button#modelDelete {
+    background: #eb0077;
+
+    display: none;
+  }
+
+  button#modelAttributeDelete {
+    background: #ebe400;
+    font-weight: normal;
+    width: 130px;
+    text-align: left;
+    font-size: 12;
+
+    display: none;
+  }
+
+  button#modelAttributeAdd {
+    background: #56eb00;
+    font-weight: normal;
+    width: 130px;
+    text-align: left;
+    font-size: 12;
+    margin-right: 3%;
+  }
+</style>
+<script type="text/javascript">
+  $(document).ready(function () {
+    setSelectMenuModelMappingTypeOptions($("div#modelTemplateContainer select#modelAttributeMappingType"));
+    setSelectMenuObjectTypeOptions(null, $("div#modelTemplateContainer select#modelAttributeType"));
+
+    var cloneClickCount = 0;
+    $('button[id=modelClone]').button().click(function () {
+      console.log("CLONE: button clicked");
+
+      /** [start] clone **/
+      var modelTemplateContainerClone = $($(this).parents("div#modelTemplateContainerClone")).clone(true, true);
+      if (cloneClickCount % 2 == 0) {
+        $(modelTemplateContainerClone).find("table#modelTemplate").css("background-color", "#93c3cd29");
+      } else {
+        $(modelTemplateContainerClone).find("table#modelTemplate").css("background-color", "white");
+      }
+      cloneClickCount = cloneClickCount + 1;
+
+      $(modelTemplateContainerClone).appendTo("div#springBootContainer");
+      /** [end] clone **/
+      $($(modelTemplateContainerClone).find("button#modelDelete")).css("display", "block");
+
+    });
+    $('button[id=modelDelete]').button().click(function () {
+      console.log("DELETE: button clicked");
+
+      /** reset modelAttributeType list **/
+      var currentModel = $(this).parents("div#modelTemplateContainerClone").find("input[id=modelName]").val();
+      if (currentModel) {
+        $(`div#modelTemplateContainerClone select#modelAttributeType option[value=${currentModel}]`).remove();
+        $(`div#modelTemplateContainerClone select#modelAttributeType option[value="List<${currentModel}>"]`).remove();
+        $(`div#modelTemplateContainerClone select#modelAttributeType option[value="Map<${currentModel}>"]`).remove();
+      }
+      ($(this).parents("div#modelTemplateContainerClone")).remove();
+    });
+
+
+    $("button[id=modelAttributeDelete]").button().click(function () {
+      console.log("DELETE ATTRIBUTE: button clicked");
+      $(this).parents("tr#modelAttributeROW").remove();
+    });
+    $("button[id=modelAttributeAdd").button().click(function () {
+      console.log("ADD ATTRIBUTE: button clicked");
+
+      var modelTemplateContainerClone = $(this).parents("div#modelTemplateContainerClone");
+      var modelAttributeTable = $(modelTemplateContainerClone).find("table#modelAttributeTABLE");
+      var modelAttributeRow = $(modelAttributeTable).find("tr#modelAttributeROW").last();
+      var modelAttributeRowClone = $(modelAttributeRow).clone(true, true);
+      $($(modelAttributeRowClone).find("button#modelAttributeDelete")).css("display", "block");
+
+      $(modelAttributeRowClone).appendTo($(modelAttributeTable));
+
+      /** reset modelAttributeType list **/
+      var filteredNewEntities = $("div#modelTemplateContainerClone input[id=modelName]").filter((k, v) => {
+        return v.value != ($(this).parents("div#modelTemplateContainerClone").find("input[id=modelName]").val())
+      })
+      setSelectMenuObjectTypeOptions(filteredNewEntities, $(modelTemplateContainerClone).find("select#modelAttributeType"));
+    });
+
+
+  });  
+</script>
+
+
+<div id="modelTemplateContainer">
+  <div style="padding:20px;">
+    <table id="modelTemplate">
+      <tbody>
+        <tr>
+          <td colspan="3" style="width:70%; text-align:left;">
+            <button id="modelClone">
+              <image style="width:24px;" src="../images/copy.png">Clone</image>
+            </button>
+          </td>
+          <td style="width:30%; text-align:-webkit-right;">
+            <button id="modelDelete">
+              <image style="width:24px;" src="../images/cross.png">Delete</image>
+            </button>
+          </td>
+        </tr>
+        <tr style="background-color: lightgrey;">
+          <th colspan="4" style="text-align:center;">Model</th>
+        </tr>
+        <tr>
+          <th colspan="2">Class Name:</th>
+          <td colspan="2"><input id="modelName" type="text" style="width:98%" /></td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            <table style="width:100%">
+              <tr>
+                <th>Attributes</th>
+              </tr>
+              <tr>
+                <td>
+                  <fieldset>
+                    <table id="modelAttributeTABLE" style="width:100%">
+                      <tr id="modelAttributeROW">
+                        <td>
+                          <select id="modelAttributeType">
+                          </select>
+                        </td>
+                        <td><input id="modelAttributeName" type="text" /></td>
+                        <td>
+                          <select id="modelAttributeMappingType">
+                          </select>
+                        </td>
+                        <td style="text-align:right;">
+                          <button id="modelAttributeDelete">(-) Delete Attribute</button>
+                        </td>
+                      </tr>
+                    </table>
+                  </fieldset>
+                </td>
+              </tr>
+              <tr>
+                <td style="text-align:right;">
+                  <button id="modelAttributeAdd">(+) Add Attribute</button>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
