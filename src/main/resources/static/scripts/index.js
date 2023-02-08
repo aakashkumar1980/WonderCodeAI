@@ -3,7 +3,6 @@ $(document).ready(function () {
     var templateContainer2 = $("div[includeTemplate2]");
     var templateContainer3 = $("div[includeTemplate3]");
     var templateContainer4 = $("div[includeTemplate4]");
-    var templateContainer5 = $("div[includeTemplate5]");
 
     $(templateContainer1).load($(templateContainer1).attr("includeTemplate1"), function () {
         console.log("templates/template.html loaded.");
@@ -98,17 +97,15 @@ $(document).ready(function () {
 
     });
     $(templateContainer2).load($(templateContainer2).attr("includeTemplate2"), function () {
-        console.log("templates/spring_boot/entity_template.html loaded.");
+        console.log("templates/service_template.html loaded.");
     });
     $(templateContainer3).load($(templateContainer3).attr("includeTemplate3"), function () {
-        console.log("templates/spring_boot/service_template.html loaded.");
+        console.log("templates/spring_boot/entity_template.html loaded.");
     });
     $(templateContainer4).load($(templateContainer4).attr("includeTemplate4"), function () {
         console.log("templates/angular/model_template.html loaded.");
     });
-    $(templateContainer5).load($(templateContainer5).attr("includeTemplate5"), function () {
-        console.log("templates/angular/service_template.html loaded.");
-    });
+
 
 
 })

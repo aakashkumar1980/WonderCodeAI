@@ -1,8 +1,8 @@
 var technology_spec_angular = [
     "basePackage",
     "model",
-    "component",
     "service",
+    "component",
     "unitTest"
 ];
 var angular_template_values = {}

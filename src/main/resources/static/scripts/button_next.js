@@ -95,27 +95,26 @@ $(document).ready(function () {
                         modal: true,
                         buttons: {
                             Ok: function () {
-                                $("div#" + currentScreen + "TemplateContainerClone").css("opacity", "0.4");
-                                $("div#subNavigation-" + currentScreen).css("opacity", "0.4");
-                                $("button#next").css("opacity", "0.4");
-                                $("button#back").css("opacity", "0.4");
-                                $("button#reset").css("opacity", "0.4");
-                                $("input#previousScreen").val(technology_spec_spring_boot[2]);
-                                $("input#currentScreen").val(null); // as there are no next screen                                 
+                                //$("div#" + currentScreen + "TemplateContainerClone").css("opacity", "0.4");
+                                //$("div#subNavigation-" + currentScreen).css("opacity", "0.4");
+                                //$("button#next").css("opacity", "0.4");
+                                //$("button#back").css("opacity", "0.4");
+                                //$("button#reset").css("opacity", "0.4");
+                                //$("input#previousScreen").val(technology_spec_spring_boot[2]);
+                                //$("input#currentScreen").val(null); /** as there are no next screen **/                                
 
                                 var serverPayload = {};
                                 serverPayload["technology-spec"] = "spring-boot";
                                 serverPayload["application-components"] = spring_boot_template_values;
                                 console.log(JSON.stringify(serverPayload));
-
                                 $.ajax({
                                     type: "POST",
                                     headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
                                     url: "http://localhost:8080/code-generate/spring-boot",
                                     data: JSON.stringify(serverPayload)
                                 });
-
                                 $(this).dialog("close");
+                               
                             },
                             Cancel: function () {
                                 $(this).dialog("close");
@@ -213,13 +212,13 @@ $(document).ready(function () {
                         modal: true,
                         buttons: {
                             Ok: function () {
-                                $("div#" + currentScreen + "TemplateContainerClone").css("opacity", "0.4");
-                                $("div#subNavigation-" + currentScreen).css("opacity", "0.4");
-                                $("button#next").css("opacity", "0.4");
-                                $("button#back").css("opacity", "0.4");
-                                $("button#reset").css("opacity", "0.4");
-                                $("input#previousScreen").val(technology_spec_angular[2]);
-                                $("input#currentScreen").val(null); // as there are no next screen                                 
+                                //$("div#" + currentScreen + "TemplateContainerClone").css("opacity", "0.4");
+                                //$("div#subNavigation-" + currentScreen).css("opacity", "0.4");
+                                //$("button#next").css("opacity", "0.4");
+                                //$("button#back").css("opacity", "0.4");
+                                //$("button#reset").css("opacity", "0.4");
+                                //$("input#previousScreen").val(technology_spec_angular[2]);
+                                //$("input#currentScreen").val(null); /** as there are no next screen **/                                
 
                                 var serverPayload = {};
                                 serverPayload["technology-spec"] = "angular";
