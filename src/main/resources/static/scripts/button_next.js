@@ -3,6 +3,8 @@ $(document).ready(function () {
     $("button#next").button().click(function () {
         var currentTemplate = $("input#currentTemplate").val();
         var currentScreen = $("input#currentScreen").val();
+        var wonderCodeIP= (window.location.search).split('=')[1];
+        wonderCodeIP = (wonderCodeIP)? wonderCodeIP:"localhost";
 
         if (currentTemplate == "springBoot") {
             /** ********************** **/
@@ -108,8 +110,8 @@ $(document).ready(function () {
                                 console.log(JSON.stringify(serverPayload));
                                 $.ajax({
                                     type: "POST",
-                                    headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
-                                    url: "http://localhost:8080/code-generate/spring-boot",
+                                    headers: { 'Access-Control-Allow-Origin': 'http://'+wonderCodeIP+':8080', 'content-type': 'application/json' },
+                                    url: "http://"+wonderCodeIP+":8080/code-generate/spring-boot",
                                     data: JSON.stringify(serverPayload)
                                 });
                                 $(this).dialog("close");
@@ -226,8 +228,8 @@ $(document).ready(function () {
 
                                 $.ajax({
                                     type: "POST",
-                                    headers: { 'Access-Control-Allow-Origin': 'http://localhost:8080', 'content-type': 'application/json' },
-                                    url: "http://localhost:8080/code-generate/angular",
+                                    headers: { 'Access-Control-Allow-Origin': 'http://'+wonderCodeIP+':8080', 'content-type': 'application/json' },
+                                    url: "http://"+wonderCodeIP+":8080/code-generate/angular",
                                     data: JSON.stringify(serverPayload)
                                 });
 
