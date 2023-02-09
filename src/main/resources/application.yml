@@ -10,5 +10,5 @@ logging.config: classpath:log4j2-dev.xml
 
 chatgpt:
   api:
-    key: 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
+    key: 
     endpoint: https://api.openai.com/v1/completions  
