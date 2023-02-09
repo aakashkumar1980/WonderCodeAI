@@ -17,7 +17,9 @@ import com.java.aadityadesigners.chatgpt.models.templates.angular.AngularTemplat
 public class AngularImplementation {
     Logger LOGGER = LogManager.getLogger(AngularImplementation.class);
 
-    @Autowired Utils utils;
+    @Autowired
+    Utils utils;
+
     public void implementApplicationCode(
             AngularTemplate tpl, TechnologySpecs technologySpecs,
             String STAGING_AREA, String stagingSeperator, ObjectMapper mapper) throws Exception {
@@ -61,8 +63,29 @@ public class AngularImplementation {
 
             }
         }
+        /** ************ **/
+        /** 2. Component **/
+        /** ************ **/
+        String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getComponent());
+        String requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
+                Utils.skipQuotes(chatGptCommand));
+
+        try {
+            String fileName = "component".concat(".ts");
+            File file = new File(stagingAreaWithPackagePath + "/" + fileName);
+            if (!file.exists()) {
+
+                LOGGER.debug("\n\n requestJson-> " + requestJson);
+                LOGGER.info("Calling ChatGPT API for " + fileName + "\n");
+                utils.restAPICall(requestJson, classPackage, file);
+            }
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            throw new Exception("Error! Retry later");
+        }
+
         /** ********** **/
-        /** 2. Service **/
+        /** 3. Service **/
         /** ********** **/
         if (tpl.getApplicationComponents().getService() != null) {
             for (int index = 0; index < tpl.getApplicationComponents().getService().length; index++) {
@@ -71,9 +94,9 @@ public class AngularImplementation {
                     String method = "(file=" + tpl.getApplicationComponents().getService()[index].getName() + ") "
                             + mapper.writeValueAsString(
                                     tpl.getApplicationComponents().getService()[index].getFunction()[index2]);
-                    String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getService()) + " "
+                    chatGptCommand = mapper.writeValueAsString(techSpecComponents.getService()) + " "
                             + Utils.skipQuotes(method);
-                    String requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
+                    requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
                             Utils.skipQuotes(chatGptCommand));
 
                     try {
@@ -82,44 +105,6 @@ public class AngularImplementation {
                                 .concat(".ts");
                         String methodName = (tpl.getApplicationComponents().getService()[index].getFunction()[index2])
                                 .getName();
-                        File file = new File(stagingAreaWithPackagePath + "/" + fileName);
-                        if (file.exists())
-                            continue;
-
-                        LOGGER.debug("\n\n requestJson-> " + requestJson);
-                        LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
-                        utils.restAPICall(requestJson, classPackage, file);
-                    } catch (Exception e) {
-                        LOGGER.error(e.getMessage());
-                        throw new Exception("Error! Retry later");
-                    }
-                }
-
-            }
-        }
-        /** ************ **/
-        /** 3. Component **/
-        /** ************ **/
-        if (tpl.getApplicationComponents().getService() != null) {
-            for (int index = 0; index < tpl.getApplicationComponents().getService().length; index++) {
-                for (int index2 = 0; index2 < tpl.getApplicationComponents().getService()[index]
-                        .getFunction().length; index2++) {
-
-                    String methodName = (tpl.getApplicationComponents().getService()[index].getFunction()[index2])
-                            .getName();
-
-                    String method = "(file=" + tpl.getApplicationComponents().getService()[index].getName() + ") "
-                            + methodName;
-                    String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getComponent()) + " "
-                            + Utils.skipQuotes(method);
-                    String requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
-                            Utils.skipQuotes(chatGptCommand));
-
-                    try {
-                        String fileName = tpl.getApplicationComponents().getService()[index].getName()
-                                .concat("Test" + index2)
-                                .concat(".ts");
-
                         File file = new File(stagingAreaWithPackagePath + "/" + fileName);
                         if (file.exists())
                             continue;
@@ -149,9 +134,9 @@ public class AngularImplementation {
                     String method = "(file=" + tpl.getApplicationComponents().getService()[index].getName() + "Test"
                             + ") "
                             + methodName;
-                    String chatGptCommand = mapper.writeValueAsString(techSpecComponents.getUnitTest()) + " "
+                    chatGptCommand = mapper.writeValueAsString(techSpecComponents.getUnitTest()) + " "
                             + Utils.skipQuotes(method);
-                    String requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
+                    requestJson = StringUtils.replace(requestJsonTemplate, "$chatGptCommand",
                             Utils.skipQuotes(chatGptCommand));
 
                     try {

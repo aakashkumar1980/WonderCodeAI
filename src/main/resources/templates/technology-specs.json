@@ -14,7 +14,7 @@
                 "model": "Using Angular; please create the Model code having the following properties ",
                 "component": "Using Model; please create the Component code.",
                 "service": "Using Component; please create the Service code for .",
-                "unitTest": "Using Component with Jasmine; please create Unit Test code."
+                "unitTest": "Using Service with Jasmine; please create Unit Test code for "
             }
         }
     ]
