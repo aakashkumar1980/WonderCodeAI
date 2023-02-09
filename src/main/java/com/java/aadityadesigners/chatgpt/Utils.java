@@ -12,6 +12,8 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +22,7 @@ import com.java.aadityadesigners.chatgpt.models.specs.Specs;
 import com.java.aadityadesigners.chatgpt.models.specs.TechnologySpecs;
 import com.java.aadityadesigners.chatgpt.models.templates.Templates;
 
+@Component
 public class Utils {
 
     private static String sanatizeData(String text) {
@@ -94,10 +97,12 @@ public class Utils {
      * REST API Calls
      * 
     */
-    private final static String CHATGPT_API_KEY = "";
-    private final static String CHATGPT_API = "https://api.openai.com/v1/completions";
+    @Value("${chatgpt.api.key}")
+    private String CHATGPT_API_KEY;
+    @Value("${chatgpt.api.endpoint}")
+    private String CHATGPT_API;
 
-    public static void restAPICall(String requestJson, String classPackage, File file) throws Exception {
+    public void restAPICall(String requestJson, String classPackage, File file) throws Exception {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         final HttpPost httpPost = new HttpPost(CHATGPT_API);
         final StringEntity entity = new StringEntity(requestJson);

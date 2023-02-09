@@ -5,6 +5,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,6 +17,7 @@ import com.java.aadityadesigners.chatgpt.models.templates.springboot.SpringBootT
 public class SpringBootImplementation {
     Logger LOGGER = LogManager.getLogger(SpringBootImplementation.class);
 
+    @Autowired Utils utils;
     public void implementApplicationCode(
             SpringBootTemplate tpl, TechnologySpecs technologySpecs,
             String STAGING_AREA, String stagingSeperator, ObjectMapper mapper) throws Exception {
@@ -51,7 +53,7 @@ public class SpringBootImplementation {
 
                     LOGGER.debug("\n\n\n requestJson-> " + requestJson);
                     LOGGER.info("Calling ChatGPT API for " + fileName + "\n");
-                    Utils.restAPICall(requestJson, classPackage, file);
+                    utils.restAPICall(requestJson, classPackage, file);
                 } catch (Exception e) {
                     LOGGER.error(e.getMessage());
                     throw new Exception("Error! Retry later");
@@ -86,7 +88,7 @@ public class SpringBootImplementation {
 
                         LOGGER.debug("\n\n requestJson-> " + requestJson);
                         LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
-                        Utils.restAPICall(requestJson, classPackage, file);
+                        utils.restAPICall(requestJson, classPackage, file);
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
                         throw new Exception("Error! Retry later");
@@ -125,7 +127,7 @@ public class SpringBootImplementation {
 
                         LOGGER.debug("\n\n requestJson-> " + requestJson);
                         LOGGER.info("Calling ChatGPT API for " + fileName + " (" + methodName + ")\n");
-                        Utils.restAPICall(requestJson, classPackage, file);
+                        utils.restAPICall(requestJson, classPackage, file);
                     } catch (Exception e) {
                         LOGGER.error(e.getMessage());
                         throw new Exception("Error! Retry later");
