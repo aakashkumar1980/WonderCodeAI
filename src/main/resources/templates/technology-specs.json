@@ -4,8 +4,8 @@
             "name": "spring-boot",
             "components": {
                 "entity": "Using JPA with Lombok and Javax validations; please show Entity and DTO code (without imports) for ",
-                "service": "Using Entity, JPA Query, Spring Boot with Exception Handling and Optimistic Locking/Transactions (if specified in the Entity); please show the Service and Repository code (without imports) for  ",
-                "unitTest": "Using Service, Spring Boot, TestNG and Mockito; please show the Unit Test code (without imports) for  "
+                "service": "Using Entity, Spring Boot 3, Data JPA Query with Exception Handling and Optimistic Locking/Transactions (if specified in the Entity); please show the Service and Repository code (without imports) for  ",
+                "unitTest": "Using Service, Spring Boot 3, JUnit 5 and Mockito; please show the Test code (without imports) for  "
             }
         },
         {
